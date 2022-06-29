@@ -98,7 +98,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
       />
       <Box
         style={{
-          border: `${colorType === 'light' ? '#fff' : '#000'} 4px solid`,
+          border: `${colorType === 'light' ? '#fff' : '#000'} 0.5rem solid`,
           width: '70%',
           position: 'relative',
           overflow: 'hidden',
