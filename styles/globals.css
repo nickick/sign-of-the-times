@@ -25,18 +25,3 @@ a {
   font-family: Circular Std Bold;
   src: url('/fonts/circular-std-bold.ttf');
 }
-
-@font-face {
-  font-family: Freight;
-  src: url('/fonts/Freight Disp Medium.otf');
-}
-
-@font-face {
-  font-family: Freight Italic;
-  src: url('/fonts/Freight Disp Book Italic.otf');
-}
-
-@font-face {
-  font-family: Monica Allcaps;
-  src: url('/fonts/MonicaAllcaps-Regular.otf')
-}
