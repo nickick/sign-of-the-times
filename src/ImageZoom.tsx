@@ -26,7 +26,7 @@ const zoomShadowAimation: AnimationSettings = {
 
 const zoomImageAnimation: AnimationSettings = {
   scale: magnification,
-  y: -40,
+  y: -70,
   duration: 0.5,
   ease: 'back.in(1.7)',
 };

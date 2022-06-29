@@ -11,7 +11,6 @@ const Landing: React.FC = () => (
       position: 'relative',
       overflow: 'hidden',
       background: 'white',
-      pt: 4,
       width: '100%',
     }}
   >
