@@ -17,7 +17,14 @@ type AnimationSettings = {
 
 const magnification: number = 1.7;
 
-const zoomAnimation: AnimationSettings = {
+const zoomShadowAimation: AnimationSettings = {
+  scale: magnification,
+  y: 0,
+  duration: 0.5,
+  ease: 'back.in(1.7)',
+};
+
+const zoomImageAnimation: AnimationSettings = {
   scale: magnification,
   y: -40,
   duration: 0.5,
@@ -38,8 +45,8 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
   useEffect(() => {
     const onMouseEnter = () => {
       if (shadowRef.current && imageRef.current) {
-        gsap.to(shadowRef.current, zoomAnimation);
-        gsap.to(imageRef.current, zoomAnimation);
+        gsap.to(shadowRef.current, zoomShadowAimation);
+        gsap.to(imageRef.current, zoomImageAnimation);
       }
     };
 
@@ -95,6 +102,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
           width: '70%',
           position: 'relative',
           overflow: 'hidden',
+          filter: 'drop-shadow(8rem 8rem 144px #000000)',
         }}
       >
         <img
