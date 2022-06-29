@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 8pt;
 }
 
 a {
@@ -13,4 +14,29 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: Hurtmore;
+  src: url('/fonts/hurtmore.otf');
+}
+
+@font-face {
+  font-family: Ugly Dave;
+  src: url('/fonts/ugly-dave.woff2');
+}
+
+@font-face {
+  font-family: Freight;
+  src: url('/fonts/Freight Disp Medium.otf');
+}
+
+@font-face {
+  font-family: Freight Italic;
+  src: url('/fonts/Freight Disp Book Italic.otf');
+}
+
+@font-face {
+  font-family: Monica Allcaps;
+  src: url('/fonts/MonicaAllcaps-Regular.otf')
 }
