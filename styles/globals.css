@@ -17,13 +17,13 @@ a {
 }
 
 @font-face {
-  font-family: Hurtmore;
-  src: url('/fonts/hurtmore.otf');
+  font-family: Circular Std;
+  src: url('/fonts/circular-std-medium-500.ttf');
 }
 
 @font-face {
-  font-family: Ugly Dave;
-  src: url('/fonts/ugly-dave.woff2');
+  font-family: Circular Std Bold;
+  src: url('/fonts/circular-std-bold.ttf');
 }
 
 @font-face {

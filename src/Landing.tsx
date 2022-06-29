@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
+import ImageZoom from './ImageZoom';
 
 const Landing: React.FC = () => (
   <Box
@@ -7,14 +8,30 @@ const Landing: React.FC = () => (
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      alignItems: 'center',
       position: 'relative',
       overflow: 'hidden',
-      pt: 20,
-      pb: 11,
+      background: 'white',
+      pt: 4,
+      width: '100%',
     }}
   >
-    Test
+    <Box
+      sx={{
+        display: 'flex',
+        width: '100%',
+      }}
+    >
+      <ImageZoom
+        imgSrc="/the-beginning-is-near.jpg"
+        imgAlt="Masked man holding a sign The Beginning is Near"
+        colorType="light"
+      />
+      <ImageZoom
+        imgSrc="/the-end-is-near.jpg"
+        imgAlt="Masked man holding a sign The Beginning is Near"
+        colorType="dark"
+      />
+    </Box>
   </Box>
 );
 

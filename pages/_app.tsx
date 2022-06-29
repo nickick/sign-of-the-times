@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 import theme from '../src/theme';
+import Layout from '../src/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,7 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet" />
       </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </ThemeProvider>
   );
 }

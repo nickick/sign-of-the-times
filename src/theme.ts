@@ -3,8 +3,8 @@ import { createTheme } from '@mui/material';
 const theme = createTheme({
   typography: {
     h1: {
-      fontFamily: 'Hurtmore, serif',
-      fontSize: '4rem',
+      fontFamily: 'Circular Std Bold',
+      fontSize: '2.5rem',
     },
     body1: {
       fontFamily: 'Freight, serif',
