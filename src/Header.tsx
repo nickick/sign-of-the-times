@@ -1,6 +1,49 @@
 import {
   Box, Typography, Button, Link,
 } from '@mui/material';
+import React, { FC, useCallback } from 'react';
+
+type Props = {
+  link: string,
+  text: string
+}
+
+const HeaderLink: FC<Props> = ({ link, text }) => {
+  const onClick = useCallback((e: React.SyntheticEvent) => {
+    e.preventDefault();
+    document.getElementById(link)?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, []);
+
+  return (
+    <Link
+      href={`#${link}`}
+      sx={{
+        mr: 4,
+      }}
+      onClick={onClick}
+    >
+      <Typography
+        variant="overline"
+        color="secondary"
+      >
+        {text}
+      </Typography>
+    </Link>
+  );
+};
+
+const headerLinks: Props[] = [
+  {
+    link: 'how-it-works',
+    text: 'How it works',
+  },
+  {
+    link: 'about',
+    text: 'About',
+  },
+];
 
 const Header = () => (
   <Box
@@ -25,32 +68,13 @@ const Header = () => (
       NØRTH
     </Typography>
     <Box>
-      <Link
-        href="#how-it-works"
-        sx={{
-          mr: 4,
-        }}
-      >
-        <Typography
-          variant="overline"
-          color="secondary"
-        >
-          How it works
-        </Typography>
-      </Link>
-      <Link
-        href="#about"
-        sx={{
-          mr: 4,
-        }}
-      >
-        <Typography
-          variant="overline"
-          color="secondary"
-        >
-          About
-        </Typography>
-      </Link>
+      {headerLinks.map(({ link, text }) => (
+        <HeaderLink
+          link={link}
+          text={text}
+          key={text}
+        />
+      ))}
       <Button
         variant="contained"
         color="primary"
