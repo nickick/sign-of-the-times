@@ -27,10 +27,17 @@ const theme = createTheme({
       fontSize: '1.75rem',
       lineHeight: '4rem',
     },
+    overline: {
+      fontFamily: 'Inter, sans-serif',
+      fontWeight: 500,
+      fontSize: '1.5rem',
+      lineHeight: '2rem',
+    },
   },
   palette: {
-    primary: createColor('#000'),
+    primary: createColor('#212121'),
     secondary: createColor('#fff'),
+    info: createColor('#212121'),
   },
   components: {
     MuiButton: {
