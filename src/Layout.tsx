@@ -1,5 +1,7 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import React from 'react';
+import Footer from './Footer';
+import Header from './Header';
 
 type Props = {
   children: React.ReactNode;
@@ -19,28 +21,9 @@ const Layout: React.FC<Props> = ({ children }) => (
       }}
       disableGutters
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          zIndex: 2,
-          width: '100%',
-          display: 'flex',
-          p: 4,
-        }}
-      >
-        <Typography
-          variant="h1"
-          color="textBlack"
-        >
-          BRENDAN
-          {' '}
-          <br />
-          NØRTH
-        </Typography>
-      </Box>
+      <Header />
       {children}
+      <Footer />
     </Container>
   </Box>
 );

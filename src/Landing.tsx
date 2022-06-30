@@ -3,6 +3,7 @@ import React from 'react';
 import HowItWorks from './HowItWorks';
 import ImageZoom from './ImageZoom';
 import MeteoricRise from './MeteoricRise';
+import PersonalStruggle from './PersonalStruggle';
 import SignsOfTheTimes from './SignsOfTheTimes';
 
 const Landing: React.FC = () => (
@@ -37,6 +38,7 @@ const Landing: React.FC = () => (
     <HowItWorks />
     <SignsOfTheTimes />
     <MeteoricRise />
+    <PersonalStruggle />
   </Box>
 );
 
