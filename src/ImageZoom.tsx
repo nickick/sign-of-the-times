@@ -95,14 +95,16 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
   return (
     <Box
       sx={{
+        display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
         flex: 1,
         width: '100%',
         background: colorType === 'light' ? '#efefef' : '#141414',
         overflow: 'hidden',
-        pt: 30,
-        pb: 8,
+        height: 'min(100vh, 900px)',
+        position: 'relative',
       }}
     >
       <Box
@@ -112,23 +114,13 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          position: 'relative',
-          mb: 17,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 2,
         }}
       >
-        <Box
-          sx={{
-            background: colorType === 'light' ? '#dadada' : '#212121',
-            width: '530px',
-            height: '530px',
-            position: 'absolute',
-            borderRadius: '50%',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.1)',
-          }}
-          ref={shadowRef}
-        />
         <Box
           sx={{
             border: `${colorType === 'light' ? '#fff' : '#000'} 0.5rem solid`,
@@ -152,48 +144,69 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
       </Box>
       <Box
         sx={{
-          position: 'relative',
-          zIndex: '2',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          background: colorType === 'light' ? '#dadada' : '#212121',
+          width: '530px',
+          height: '530px',
+          position: 'absolute',
+          borderRadius: '50%',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%) scale(1.1)',
+        }}
+        ref={shadowRef}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '8rem',
         }}
       >
-        <Typography
-          variant="overline"
+        <Box
           sx={{
-            color: `${colorType === 'light' ? '#212121' : '#fff'}`,
-            fontSize: '2rem',
-            lineHeight: '3rem',
-            position: 'absolute',
-            top: -1,
-            left: '50%',
-            transform: 'translate(-50%, 0)',
-          }}
-          ref={textRef}
-        >
-          Coming soon
-        </Typography>
-        <Button
-          variant="contained"
-          color={colorType === 'light' ? 'primary' : 'secondary'}
-          ref={buttonRef}
-          sx={{
-            py: 1.5,
-            px: 3,
+            position: 'relative',
+            zIndex: '2',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Typography
-            variant="body2"
-            color={colorType === 'light' ? 'secondary' : 'primary'}
+            variant="overline"
             sx={{
-              fontSize: '1.5rem',
-              lineHeight: '2remm',
+              color: `${colorType === 'light' ? '#212121' : '#fff'}`,
+              fontSize: '2rem',
+              lineHeight: '3rem',
+              position: 'absolute',
+              top: -1,
+              left: '50%',
+              transform: 'translate(-50%, 0)',
+              width: '100%',
+            }}
+            ref={textRef}
+          >
+            Coming soon
+          </Typography>
+          <Button
+            variant="contained"
+            color={colorType === 'light' ? 'primary' : 'secondary'}
+            ref={buttonRef}
+            sx={{
+              py: 1.5,
+              px: 3,
             }}
           >
-            Mint &#40;0.05 Eth&#41;
-          </Typography>
-        </Button>
+            <Typography
+              variant="body2"
+              color={colorType === 'light' ? 'secondary' : 'primary'}
+              sx={{
+                fontSize: '1.5rem',
+                lineHeight: '2remm',
+              }}
+            >
+              Mint &#40;0.05 Eth&#41;
+            </Typography>
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
