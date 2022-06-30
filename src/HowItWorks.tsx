@@ -5,8 +5,9 @@ const HowItWorks = () => (
   <Box
     sx={{
       px: 14,
-      py: 18,
+      pt: 18,
     }}
+    id="how-it-works"
   >
     <Box
       sx={{

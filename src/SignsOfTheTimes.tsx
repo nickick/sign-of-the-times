@@ -4,8 +4,9 @@ const SignsOfTheTimes = () => (
   <Box
     sx={{
       px: 14,
-      pb: 18,
+      py: 18,
     }}
+    id="about"
   >
     <Box
       sx={{
