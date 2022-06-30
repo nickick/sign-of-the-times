@@ -55,7 +55,7 @@ const Header = () => (
         variant="contained"
         color="primary"
         sx={{
-          p: 2
+          p: 2,
         }}
       >
         <Typography
