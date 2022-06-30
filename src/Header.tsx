@@ -1,7 +1,8 @@
 import {
-  Box, Typography, Button, Link,
+  Box, Link, Typography,
 } from '@mui/material';
 import React, { FC, useCallback } from 'react';
+import ConnectButton from './ConnectButton';
 
 type Props = {
   link: string,
@@ -75,20 +76,7 @@ const Header = () => (
           key={text}
         />
       ))}
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{
-          p: 2,
-        }}
-      >
-        <Typography
-          variant="overline"
-          color="secondary"
-        >
-          Connect Wallet
-        </Typography>
-      </Button>
+      <ConnectButton />
     </Box>
   </Box>
 );

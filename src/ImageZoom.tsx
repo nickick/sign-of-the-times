@@ -188,6 +188,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
               top: -1,
               left: '50%',
               transform: 'translate(-50%, 0)',
+              textAlign: 'center',
               width: '100%',
             }}
             ref={textRef}

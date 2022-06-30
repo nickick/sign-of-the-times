@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 import theme from '../src/theme';
 import Layout from '../src/Layout';
+import ContractContextProvider from '../src/ContractContextProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,9 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:title" content="Signs of the Times" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ContractContextProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ContractContextProvider>
     </ThemeProvider>
   );
 }
