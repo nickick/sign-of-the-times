@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx eslint **/*.js --format table
+npx eslint **/*.ts **/*.tsx --format table
