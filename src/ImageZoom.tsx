@@ -119,13 +119,13 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
         <Box
           sx={{
             background: colorType === 'light' ? '#dadada' : '#212121',
-            width: '580px',
-            height: '580px',
+            width: '530px',
+            height: '530px',
             position: 'absolute',
             borderRadius: '50%',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate(-50%, -50%) scale(1.1)',
           }}
           ref={shadowRef}
         />
