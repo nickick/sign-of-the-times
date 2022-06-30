@@ -1,5 +1,6 @@
 import { Box, Typography, Button } from '@mui/material';
 import gsap from 'gsap';
+import { useInView } from 'react-intersection-observer';
 import React, { useEffect, useRef } from 'react';
 
 type Props = {
@@ -57,6 +58,10 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
   const imageRef = useRef<HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
   useEffect(() => {
     const onMouseEnter = () => {
@@ -105,7 +110,10 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
         overflow: 'hidden',
         height: 'min(100vh, 900px)',
         position: 'relative',
+        opacity: inView ? 1 : 0,
+        transition: 'opacity 0.5s ease-out',
       }}
+      ref={ref}
     >
       <Box
         sx={{
