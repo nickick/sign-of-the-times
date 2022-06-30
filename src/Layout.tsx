@@ -32,7 +32,7 @@ const Layout: React.FC<Props> = ({ children }) => (
       >
         <Typography
           variant="h1"
-          color="initial"
+          color="textBlack"
         >
           BRENDAN
           {' '}

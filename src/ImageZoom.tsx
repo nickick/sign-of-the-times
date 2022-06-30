@@ -31,6 +31,20 @@ const zoomImageAnimation: AnimationSettings = {
   ease: 'back.in(1.7)',
 };
 
+const translateTextAnimation: AnimationSettings = {
+  scale: 1,
+  y: -70,
+  duration: 0.5,
+  ease: 'back.in(1.7)',
+};
+
+const resetTextAnimation: AnimationSettings = {
+  scale: 1.0,
+  y: 0,
+  duration: 0.5,
+  ease: 'back.in(1.7)',
+};
+
 const resetAnimation: AnimationSettings = {
   scale: 1.1,
   y: 0,
@@ -42,35 +56,38 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
   const shadowRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const onMouseEnter = () => {
-      if (shadowRef.current && imageRef.current) {
-        gsap.to(shadowRef.current, zoomShadowAimation);
-        gsap.to(imageRef.current, zoomImageAnimation);
-      }
+      gsap.to(shadowRef.current, zoomShadowAimation);
+      gsap.to(imageRef.current, zoomImageAnimation);
+      gsap.to(textRef.current, translateTextAnimation);
     };
 
     const onMouseLeave = () => {
-      if (shadowRef.current && imageRef.current) {
-        gsap.to(shadowRef.current, resetAnimation);
-        gsap.to(imageRef.current, resetAnimation);
-      }
+      gsap.to(shadowRef.current, resetAnimation);
+      gsap.to(imageRef.current, resetAnimation);
+      gsap.to(textRef.current, resetTextAnimation);
     };
 
-    if (imageRef.current && buttonRef.current) {
+    if (imageRef.current && buttonRef.current && textRef.current) {
       imageRef.current.addEventListener('mouseenter', onMouseEnter);
       imageRef.current.addEventListener('mouseleave', onMouseLeave);
       buttonRef.current.addEventListener('mouseenter', onMouseEnter);
       buttonRef.current.addEventListener('mouseleave', onMouseLeave);
+      textRef.current.addEventListener('mouseenter', onMouseEnter);
+      textRef.current.addEventListener('mouseleave', onMouseLeave);
     }
 
     return () => {
-      if (imageRef.current && buttonRef.current) {
+      if (imageRef.current && buttonRef.current && textRef.current) {
         imageRef.current.removeEventListener('mouseenter', onMouseEnter);
         imageRef.current.removeEventListener('mouseleave', onMouseLeave);
         buttonRef.current.removeEventListener('mouseenter', onMouseEnter);
         buttonRef.current.removeEventListener('mouseleave', onMouseLeave);
+        textRef.current.removeEventListener('mouseenter', onMouseEnter);
+        textRef.current.removeEventListener('mouseleave', onMouseLeave);
       }
     };
   }, [shadowRef.current, imageRef.current]);
@@ -142,12 +159,40 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
           alignItems: 'center',
         }}
       >
+        <Typography
+          variant="overline"
+          sx={{
+            color: `${colorType === 'light' ? '#212121' : '#fff'}`,
+            fontSize: '2rem',
+            lineHeight: '3rem',
+            position: 'absolute',
+            top: -1,
+            left: '50%',
+            transform: 'translate(-50%, 0)',
+          }}
+          ref={textRef}
+        >
+          Coming soon
+        </Typography>
         <Button
           variant="contained"
-          color="primary"
+          color={colorType === 'light' ? 'primary' : 'secondary'}
           ref={buttonRef}
+          sx={{
+            py: 1.5,
+            px: 3,
+          }}
         >
-          <Typography variant="body2" color="secondary">Mint &#40;0.05&#41;</Typography>
+          <Typography
+            variant="body2"
+            color={colorType === 'light' ? 'secondary' : 'primary'}
+            sx={{
+              fontSize: '1.5rem',
+              lineHeight: '2remm',
+            }}
+          >
+            Mint &#40;0.05 Eth&#41;
+          </Typography>
         </Button>
       </Box>
     </Box>

@@ -1,6 +1,9 @@
 import { Box } from '@mui/material';
 import React from 'react';
+import HowItWorks from './HowItWorks';
 import ImageZoom from './ImageZoom';
+import MeteoricRise from './MeteoricRise';
+import SignsOfTheTimes from './SignsOfTheTimes';
 
 const Landing: React.FC = () => (
   <Box
@@ -31,6 +34,9 @@ const Landing: React.FC = () => (
         colorType="dark"
       />
     </Box>
+    <HowItWorks />
+    <SignsOfTheTimes />
+    <MeteoricRise />
   </Box>
 );
 

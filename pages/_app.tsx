@@ -20,7 +20,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="Replace me" />
         <meta property="og:title" content="Replace me" />
         <link rel="icon" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet" />
       </Head>
       <Layout>
         <Component {...pageProps} />
