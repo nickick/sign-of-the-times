@@ -92,7 +92,7 @@ const PersonalStruggle = () => {
           my life. Going through something like this I would be a fool not to learn
           from it. But what&rsquo;s funny is that I came to realize that all I
           wanted to do was be more myself and double down on the things I
-          wasalready chasing. When you&rsquo;re sick you start to think about what
+          was already chasing. When you&rsquo;re sick you start to think about what
           you&rsquo;ve accomplished in life so far and what you&rsquo;ll be
           remembered for. It&rsquo;s terrifying to look upon your achievements and
           feel unsatisfied. For me, this thought became a driving force in my
@@ -102,7 +102,7 @@ const PersonalStruggle = () => {
         <Typography
           variant="body2"
           sx={{
-            mt: 8,
+            mt: 4,
             pr: 14,
             mb: 38,
           }}
