@@ -72,8 +72,8 @@ const PersonalStruggle = () => {
           }}
         >
           <img
-            src="/end-is-near.png"
-            alt="Man holding End is Near sign"
+            src="/brendan-north.jpeg"
+            alt="Brendan North staring into the distance"
             style={{
               width: '100%',
             }}

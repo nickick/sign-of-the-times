@@ -17,7 +17,7 @@ const Landing: React.FC = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         position: 'relative',
-        overflow: 'hidden',
+        // overflow: 'hidden',
         background: 'white',
         width: '100%',
       }}
@@ -26,18 +26,28 @@ const Landing: React.FC = () => {
         sx={{
           display: 'flex',
           width: '100%',
-          background: '#efefef',
+          background: {
+            xs: '#ffffff',
+            md: '#efefef',
+          },
           position: 'relative',
+          zIndex: 2,
         }}
       >
         <Box
           sx={{
-            width: `${(endMint || 1) / ((endMint || 1) + (beginningMint || 1))}`,
-            height: '100%',
+            width: {
+              xs: '100%',
+              md: `${(endMint || 1) / ((endMint || 1) + (beginningMint || 1))}`,
+            },
+            height: {
+              xs: '55%',
+              md: '100%',
+            },
             position: 'absolute',
             bgcolor: '#151515',
             right: 0,
-            top: 0,
+            bottom: 0,
             transition: 'width 0.5s ease-in-out',
           }}
         />

@@ -11,16 +11,28 @@ const HowItWorks = () => {
   return (
     <Box
       sx={{
-        px: 14,
-        pt: 18,
+        px: {
+          md: 14,
+        },
+        pt: {
+          md: 18,
+        },
       }}
       id="how-it-works"
     >
       <Box
         sx={{
           py: 12,
+          px: {
+            xs: 4,
+            md: 0,
+          },
           bgcolor: '#141414',
           display: 'flex',
+          flexDirection: {
+            xs: 'column',
+            md: 'row',
+          },
           opacity: inView ? 1 : 0,
           transition: 'opacity 0.5s ease-out',
         }}
@@ -39,6 +51,7 @@ const HowItWorks = () => {
             fontSize: '6rem',
             lineHeight: '6rem',
             flex: 2,
+            mb: 4,
           }}
         >
           How it works

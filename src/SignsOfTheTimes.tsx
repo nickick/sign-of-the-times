@@ -61,7 +61,7 @@ const SignsOfTheTimes = () => {
               mb: 4,
             }}
           >
-            Signs of the Times
+            About the Project
           </Typography>
           <Typography
             variant="body2"

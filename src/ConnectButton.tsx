@@ -4,7 +4,12 @@ import { useContext } from 'react';
 import { ContractContext } from './ContractContextProvider';
 import shortenAddress from './utils/shortenAddress';
 
-const ConnectButton = () => {
+type Props = {
+  // eslint-disable-next-line react/require-default-props
+  sx?: object;
+}
+
+const ConnectButton = ({ sx }: Props) => {
   const { connectWallet, currentAccount } = useContext(ContractContext);
 
   return (
@@ -13,6 +18,7 @@ const ConnectButton = () => {
       color="primary"
       sx={{
         p: 2,
+        ...sx,
       }}
       onClick={connectWallet}
     >
