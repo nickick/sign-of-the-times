@@ -18,6 +18,7 @@ const Layout: React.FC<Props> = ({ children }) => (
       sx={{
         bgcolor: 'white',
         position: 'relative',
+        overflow: 'hidden',
       }}
       disableGutters
     >

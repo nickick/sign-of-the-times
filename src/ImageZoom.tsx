@@ -23,12 +23,12 @@ type AnimationSettings = {
 
 const magnification: number = 1.7;
 
-const zoomShadowAimation: AnimationSettings = {
-  scale: magnification,
-  y: 0,
-  duration: 0.5,
-  ease: 'back.in(1.7)',
-};
+// const zoomShadowAimation: AnimationSettings = {
+//   scale: magnification,
+//   y: 0,
+//   duration: 0.5,
+//   ease: 'back.in(1.7)',
+// };
 
 const zoomImageAnimation: AnimationSettings = {
   scale: magnification,
@@ -79,14 +79,14 @@ const ImageZoom: React.FC<Props> = ({
 
   useEffect(() => {
     const onMouseEnter = () => {
-      gsap.to(shadowRef.current, zoomShadowAimation);
       gsap.to(imageRef.current, zoomImageAnimation);
+      // gsap.to(shadowRef.current, zoomShadowAimation);
       // gsap.to(textRef.current, translateTextAnimation);
     };
 
     const onMouseLeave = () => {
-      gsap.to(shadowRef.current, resetAnimation);
       gsap.to(imageRef.current, resetAnimation);
+      // gsap.to(shadowRef.current, resetAnimation);
       // gsap.to(textRef.current, resetTextAnimation);
     };
 
