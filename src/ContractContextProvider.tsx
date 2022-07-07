@@ -43,7 +43,7 @@ const ContractContextProvider = ({ children }: Props) => {
     try {
       if (!ethereum) {
         if (window.innerWidth < 800) {
-          window.location.replace('https://metamask.app.link/dapp/firstdayout.driftershoots.com');
+          window.location.replace('https://metamask.app.link/dapp/sign-of-the-times.vercel.app');
         }
       }
 
