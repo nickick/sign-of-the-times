@@ -4,6 +4,7 @@ import {
 import { Slant as Hamburger } from 'hamburger-react';
 import React, { FC, useCallback, useState } from 'react';
 import ConnectButton from './ConnectButton';
+import MobileDrawer from './Drawer';
 
 type Props = {
   link: string,
@@ -50,6 +51,10 @@ const headerLinks: Props[] = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const closeDrawer = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
     <Box>
       <Box
@@ -77,6 +82,7 @@ const Header = () => {
           },
         }}
       >
+        <MobileDrawer isOpen={isOpen} closeDrawer={closeDrawer} setOpen={setIsOpen} />
         <Typography
           variant="h1"
           color="secondary"
