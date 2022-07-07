@@ -63,10 +63,10 @@ const Header = () => (
       variant="h1"
       color="primary"
     >
-      BRENDAN
+      SIGNS ØF
       {' '}
       <br />
-      NØRTH
+      THE TIMES
     </Typography>
     <Box>
       {headerLinks.map(({ link, text }) => (
