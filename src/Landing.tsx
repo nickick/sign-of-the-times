@@ -4,7 +4,7 @@ import HowItWorks from './HowItWorks';
 import ImageZoom from './ImageZoom';
 import MeteoricRise from './MeteoricRise';
 import PersonalStruggle from './PersonalStruggle';
-import SignsOfTheTimes from './SignsOfTheTimes';
+import AboutTheProject from './AboutTheProject';
 
 const Landing: React.FC = () => {
   const [beginningMint, setBeginningMint] = useState(0);
@@ -67,7 +67,7 @@ const Landing: React.FC = () => {
         />
       </Box>
       <HowItWorks />
-      <SignsOfTheTimes />
+      <AboutTheProject />
       <MeteoricRise />
       <PersonalStruggle />
     </Box>

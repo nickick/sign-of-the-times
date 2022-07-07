@@ -10,8 +10,12 @@ const SignsOfTheTimes = () => {
   return (
     <Box
       sx={{
-        px: 14,
-        py: 18,
+        px: {
+          md: 14,
+        },
+        py: {
+          md: 18,
+        },
         opacity: inView ? 1 : 0,
         transition: 'opacity 0.5s ease-out',
       }}
@@ -21,20 +25,34 @@ const SignsOfTheTimes = () => {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: {
+            xs: 'column',
+            md: 'row',
+          },
         }}
       >
         <Box
-          sx={{
-            flex: 5,
-          }}
+          sx={[
+            {
+              flex: 5,
+            },
+            {
+              '& > img': {
+                width: {
+                  xs: '100%',
+                  md: 'calc(100% + 14rem)',
+                },
+                transform: {
+                  xs: 'none',
+                  md: 'translate(-14rem, 0)',
+                },
+              },
+            },
+          ]}
         >
           <img
             src="/brendan-2019-point-dune.png"
             alt="Brendan North staring into the distance with camera"
-            style={{
-              width: 'calc(100% + 14rem)',
-              transform: 'translate(-14rem, 0)',
-            }}
           />
         </Box>
         <Box
@@ -48,15 +66,32 @@ const SignsOfTheTimes = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            py: {
+              xs: 12,
+              md: 0,
+            },
+            px: {
+              xs: 3,
+              md: 0,
+            },
           }}
         >
           <Typography
             variant="h1"
             sx={{
-              fontSize: '8rem',
-              lineHeight: '9rem',
+              fontSize: {
+                xs: '6rem',
+                md: '8rem',
+              },
+              lineHeight: {
+                xs: '6rem',
+                md: '9rem',
+              },
               fontFamily: 'Inter, sans-serif',
-              fontWeight: 100,
+              fontWeight: {
+                xs: 300,
+                md: 100,
+              },
               letterSpacing: '-0.05em',
               mb: 4,
             }}
@@ -74,6 +109,15 @@ const SignsOfTheTimes = () => {
             itself at the crossroads of bearish and bullish. This project will act as a definitive
             community vote of confidence in our future and in true NFT fashion, it will use art
             collection as the voting medium.
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              mt: 6,
+            }}
+          >
+            View more works
+            <img src="arrow.svg" alt="view more works" style={{ marginLeft: '2rem' }} />
           </Typography>
         </Box>
       </Box>

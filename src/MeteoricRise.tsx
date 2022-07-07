@@ -10,7 +10,9 @@ const MeteoricRise = () => {
   return (
     <Box
       sx={{
-        pl: 14,
+        pl: {
+          md: 14,
+        },
         opacity: inView ? 1 : 0,
         transition: 'opacity 0.5s ease-out',
       }}
@@ -19,9 +21,20 @@ const MeteoricRise = () => {
       <Box
         sx={{
           background: '#141414',
-          pr: 14,
+          pl: {
+            xs: 3,
+            md: 0,
+          },
+          pr: {
+            xs: 3,
+            md: 14,
+          },
           py: 12,
           display: 'flex',
+          flexDirection: {
+            xs: 'column',
+            md: 'row',
+          },
         }}
       >
         <Box
@@ -37,6 +50,10 @@ const MeteoricRise = () => {
             fontWeight: 700,
             fontSize: '2.5rem',
             lineHeight: '3.75rem',
+            mb: {
+              xs: 8,
+              md: 0,
+            },
           }}
         >
           The meteoric rise of NFTs has changed the digital landscape and the art world forever.

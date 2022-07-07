@@ -10,17 +10,38 @@ const PersonalStruggle = () => {
   return (
     <Box
       sx={{
-        pt: 24,
-        pl: 14,
+        pt: {
+          md: 24,
+        },
+        pl: {
+          xs: 3,
+          md: 14,
+        },
+        pr: {
+          xs: 3,
+          md: 0,
+        },
         display: 'flex',
         opacity: inView ? 1 : 0,
         transition: 'opacity 0.5s ease-out',
+        flexDirection: {
+          xs: 'column',
+          md: 'row',
+        },
       }}
       ref={ref}
     >
       <Box
         sx={{
           flex: 3,
+          pt: {
+            xs: 12,
+            md: 0,
+          },
+          pb: {
+            xs: 8,
+            md: 0,
+          },
         }}
       >
         <Typography
@@ -52,7 +73,10 @@ const PersonalStruggle = () => {
         <Typography
           variant="body2"
           sx={{
-            pr: 14,
+            pr: {
+              xs: 0,
+              md: 14,
+            },
           }}
         >
           I created this image as a commentary on the state of the NFT market as
@@ -67,8 +91,12 @@ const PersonalStruggle = () => {
         </Typography>
         <Box
           sx={{
-            width: 'calc(100%+14rem)',
+            width: '100%',
             py: 8,
+            display: {
+              xs: 'none',
+              md: 'block',
+            },
           }}
         >
           <img
@@ -79,10 +107,31 @@ const PersonalStruggle = () => {
             }}
           />
         </Box>
+        <Box
+          sx={{
+            width: '100%',
+            py: 8,
+            display: {
+              xs: 'block',
+              md: 'none',
+            },
+          }}
+        >
+          <img
+            src="/brendan-north-mobile.jpeg"
+            alt="Brendan North staring into the distance"
+            style={{
+              width: '100%',
+            }}
+          />
+        </Box>
         <Typography
           variant="body2"
           sx={{
-            pr: 14,
+            pr: {
+              xs: 0,
+              md: 14,
+            },
           }}
         >
           At the beginning of 2022, my life got put on hold. I had developed a wide
@@ -103,8 +152,14 @@ const PersonalStruggle = () => {
           variant="body2"
           sx={{
             mt: 4,
-            pr: 14,
-            mb: 38,
+            pr: {
+              xs: 0,
+              md: 14,
+            },
+            mb: {
+              xs: 14,
+              md: 38,
+            },
           }}
         >
           But the few stories I did see, I took to heart. If recovery was

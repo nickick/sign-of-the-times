@@ -9,7 +9,14 @@ const Footer = () => (
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
-      p: 6,
+      p: {
+        xs: 3,
+        md: 6,
+      },
+      flexDirection: {
+        xs: 'column',
+        md: 'row',
+      },
     }}
   >
     <Typography
@@ -19,6 +26,10 @@ const Footer = () => (
         fontsize: '1.5rem',
         lineHeight: '2rem',
         flex: 1,
+        display: {
+          xs: 'none',
+          md: 'block',
+        },
       }}
     >
       &copy;2022 Brendan North
@@ -29,10 +40,50 @@ const Footer = () => (
       sx={{
         flex: 1,
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: {
+          xs: 'flex-start',
+          md: 'space-around',
+        },
+        mb: {
+          xs: 2,
+          md: 0,
+        },
+        fontSize: {
+          xs: '2rem',
+          md: '1.5rem',
+        },
+        lineHeight: {
+          xs: '2rem',
+          md: '2rem',
+        },
       }}
     >
-      BRENDAN NØRTH
+      SIGN ØF THE TIMES
+    </Typography>
+    <Typography
+      variant="body1"
+      color="initial"
+      sx={{
+        flex: 1,
+        display: {
+          xs: 'block',
+          md: 'none',
+        },
+        fontSize: {
+          xs: '2rem',
+          md: '1.5rem',
+        },
+        lineHeight: {
+          xs: '2rem',
+          md: '2rem',
+        },
+        mb: {
+          xs: 2,
+          md: 0,
+        },
+      }}
+    >
+      &copy;2022 Brendan North
     </Typography>
     <Typography
       variant="body1"
@@ -41,7 +92,10 @@ const Footer = () => (
         fontsize: '1.5rem',
         lineHeight: '2rem',
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: {
+          xs: 'flex-start',
+          md: 'flex-end',
+        },
         flex: 1,
       }}
     >
