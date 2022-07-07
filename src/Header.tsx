@@ -56,12 +56,16 @@ const Header = () => (
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
+      mixBlendMode: 'difference',
       p: 4,
     }}
   >
     <Typography
       variant="h1"
-      color="primary"
+      color="secondary"
+      sx={{
+        mixBlendMode: 'difference',
+      }}
     >
       SIGNS ØF
       {' '}

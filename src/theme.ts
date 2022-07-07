@@ -38,6 +38,7 @@ const theme = createTheme({
     primary: createColor('#212121'),
     secondary: createColor('#fff'),
     info: createColor('#212121'),
+    success: createColor('#353535'),
   },
   components: {
     MuiButton: {

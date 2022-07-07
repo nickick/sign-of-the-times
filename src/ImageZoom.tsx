@@ -1,12 +1,15 @@
 import { Box, Typography, Button } from '@mui/material';
 import gsap from 'gsap';
 import { useInView } from 'react-intersection-observer';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 type Props = {
   imgSrc: string,
   imgAlt: string,
   colorType: 'light' | 'dark',
+  count: number,
+  // eslint-disable-next-line no-unused-vars
+  setIncrement: (x: number) => void,
 }
 
 type AnimationSettings = {
@@ -53,7 +56,9 @@ const resetAnimation: AnimationSettings = {
   ease: 'back.in(1.7)',
 };
 
-const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
+const ImageZoom: React.FC<Props> = ({
+  imgSrc, imgAlt, colorType, count, setIncrement,
+}) => {
   const shadowRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -62,6 +67,10 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const incrementUp = useCallback(() => {
+    setIncrement(count + 1);
+  }, [count]);
 
   useEffect(() => {
     const onMouseEnter = () => {
@@ -106,8 +115,6 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
         justifyContent: 'center',
         flex: 1,
         width: '100%',
-        background: colorType === 'light' ? '#efefef' : '#141414',
-        overflow: 'hidden',
         height: 'min(100vh, 900px)',
         position: 'relative',
         opacity: inView ? 1 : 0,
@@ -166,7 +173,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: '22.5rem',
+          bottom: '24rem',
         }}
       >
         <Box
@@ -180,16 +187,17 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
         >
           <Button
             variant="contained"
-            color={colorType === 'light' ? 'primary' : 'secondary'}
+            color={colorType === 'light' ? 'secondary' : 'success'}
             ref={buttonRef}
             sx={{
               py: 1.5,
               px: 3,
             }}
+            onClick={incrementUp}
           >
             <Typography
               variant="body2"
-              color={colorType === 'light' ? 'secondary' : 'primary'}
+              color={colorType === 'light' ? 'primary' : 'secondary'}
               sx={{
                 fontSize: '1.5rem',
                 lineHeight: '2.0rem',
@@ -204,7 +212,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
         variant="overline"
         sx={[
           {
-            color: `${colorType === 'light' ? '#212121' : '#fff'}`,
+            color: '#fff',
             [colorType === 'light' ? 'left' : 'right']: '4rem',
             textAlign: colorType === 'light' ? 'left' : 'right',
             fontSize: '2rem',
@@ -212,6 +220,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
             position: 'absolute',
             bottom: '4rem',
             width: '100%',
+            mixBlendMode: 'difference',
           },
           {
             '& > span': {
@@ -225,7 +234,7 @@ const ImageZoom: React.FC<Props> = ({ imgSrc, imgAlt, colorType }) => {
         ref={textRef}
       >
         <span>
-          0
+          {count}
         </span>
         Minted
       </Typography>
