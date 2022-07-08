@@ -289,9 +289,9 @@ const ImageZoom: React.FC<Props> = ({
       </Box>
       <Typography
         variant="overline"
+        color={colorType === 'light' ? 'primary' : 'secondary'}
         sx={[
           {
-            color: '#fff',
             [colorType === 'light' ? 'left' : 'right']: {
               xs: 0,
               md: '4rem',
