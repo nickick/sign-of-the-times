@@ -1,9 +1,9 @@
 import {
-  Box, Typography, Button, useMediaQuery, useTheme,
+  Box, Button, Typography, useMediaQuery, useTheme,
 } from '@mui/material';
 import gsap from 'gsap';
+import React, { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import React, { useCallback, useEffect, useRef } from 'react';
 
 type Props = {
   imgSrc: string,
@@ -11,7 +11,7 @@ type Props = {
   colorType: 'light' | 'dark',
   count: number,
   // eslint-disable-next-line no-unused-vars
-  setIncrement: (x: number) => void,
+  // setIncrement: (x: number) => void,
 }
 
 type AnimationSettings = {
@@ -59,7 +59,8 @@ const resetAnimation: AnimationSettings = {
 };
 
 const ImageZoom: React.FC<Props> = ({
-  imgSrc, imgAlt, colorType, count, setIncrement,
+  imgSrc, imgAlt, colorType, count,
+  // setIncrement,
 }) => {
   const shadowRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -70,9 +71,9 @@ const ImageZoom: React.FC<Props> = ({
     threshold: 0.1,
   });
 
-  const incrementUp = useCallback(() => {
-    setIncrement(count + 1);
-  }, [count]);
+  // const incrementUp = useCallback(() => {
+  //   setIncrement(count + 1);
+  // }, [count]);
 
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up('md'));
@@ -272,7 +273,6 @@ const ImageZoom: React.FC<Props> = ({
                 md: 'inherit',
               },
             }}
-            onClick={incrementUp}
           >
             <Typography
               variant="body2"

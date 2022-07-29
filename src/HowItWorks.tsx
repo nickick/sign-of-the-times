@@ -76,7 +76,7 @@ const HowItWorks = () => {
               lineHeight: '3rem',
             }}
           >
-            The mint will last 24 hours.
+            The mint starts at Thursday 8/4/22, 12pm PT. It will last 24 hours.
           </Typography>
           <Typography
             variant="body1"
@@ -91,11 +91,22 @@ const HowItWorks = () => {
             variant="body1"
             color="secondary"
             sx={{
+              my: 2,
             }}
           >
             Shortly after the open edition vote has closed, a burn mechanic will be in effect
-            allowing collectors to burn 3 OE&rsquo;s for a 3rd master image that will bear
+            allowing collectors to burn any 2 OE&rsquo;s for a 3rd master image that will bear
             this project&rsquo;s name.
+          </Typography>
+          <Typography
+            variant="body1"
+            color="secondary"
+            sx={{
+              mt: 2,
+            }}
+          >
+            If you hold a &quot;Painted Poetry&quot; piece or an edition of
+            &quot;Golden Future&quot;, you are eligible to mint 1 gas only edition.
           </Typography>
         </Box>
         <Box
