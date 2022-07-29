@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
 
 const SignsOfTheTimes = () => {
@@ -116,8 +116,16 @@ const SignsOfTheTimes = () => {
               mt: 6,
             }}
           >
-            View more works
-            <img src="arrow.svg" alt="view more works" style={{ marginLeft: '2rem' }} />
+            <Link
+              href="https://superrare.com/brendannorth"
+              target="_blank"
+              sx={{
+                textDecoration: 'none',
+              }}
+            >
+              View more works
+              <img src="arrow.svg" alt="view more works" style={{ marginLeft: '2rem' }} />
+            </Link>
           </Typography>
         </Box>
       </Box>
