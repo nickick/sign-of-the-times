@@ -58,7 +58,7 @@ const Footer = () => (
         },
       }}
     >
-      SIGN ØF THE TIMES
+      SIGNS ØF THE TIMES
     </Typography>
     <Typography
       variant="body1"
