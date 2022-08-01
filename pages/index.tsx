@@ -7,8 +7,8 @@ const Home: NextPage = () => (
     <Head>
       <meta property="og:image" content="https://www.signs-of-the-times.xyz/share-image.png" />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:width" content="600" />
-      <meta property="og:image:height" content="600" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="627" />
       <meta property="og:image:alt" content="Brendan North's Signs of the Times Open Edition Mint site" />
       <meta property="og:type" content="website" />
       <meta name="description" content="Brendan North's Signs of the Times Open Edition Mint site" />
