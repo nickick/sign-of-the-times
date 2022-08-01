@@ -16,7 +16,7 @@ const Home: NextPage = () => (
       <meta property="og:description" content="Mint site for Brendan North's Signs of the Times Open Edition" />
       <meta property="og:url" content="https://www.signs-of-the-times.xyz" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@itsdanataylor" />
+      <meta name="twitter:site" content="@ImBrendanNorth" />
       <meta name="twitter:creator" content="@pepperonick" />
       <meta name="twitter:description" content="Mint site for Brendan North's Signs of the Times Open Edition" />
       <meta name="twitter:image" content="https://www.signs-of-the-times.xyz/share-image.png" />
