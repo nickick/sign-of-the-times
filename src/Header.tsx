@@ -46,6 +46,10 @@ const headerLinks: Props[] = [
     link: 'about',
     text: 'About',
   },
+  {
+    link: 'my-story',
+    text: 'My Story',
+  },
 ];
 
 const Header = () => {

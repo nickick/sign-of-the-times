@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 
 const Footer = () => (
   <Box
@@ -99,7 +99,14 @@ const Footer = () => (
         flex: 1,
       }}
     >
-      Privacy Policy
+      <Link
+        href="/privacy-policy"
+        sx={{
+          textDecoration: 'none',
+        }}
+      >
+        Privacy Policy
+      </Link>
     </Typography>
   </Box>
 );

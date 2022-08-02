@@ -30,6 +30,7 @@ const PersonalStruggle = () => {
         },
       }}
       ref={ref}
+      id="my-story"
     >
       <Box
         sx={{
@@ -47,16 +48,13 @@ const PersonalStruggle = () => {
         <Typography
           variant="body2"
           sx={{
-            fontWeight: 700,
-            fontSize: '2.5rem',
-            lineHeight: '3.75rem',
+            fontWeight: 100,
+            fontSize: '8rem',
+            lineHeight: '9rem',
+            fontFamily: 'Inter, sans-serif',
           }}
         >
-          Stories of long covid recovery are few and far between with many
-          suffering for more than 2 years now. At some points I felt so sick, I
-          thought that was going to be me. Forever trapped inside my own body
-          with barely enough energy to get out of bed. The end has never felt so
-          near.
+          My story
         </Typography>
       </Box>
       <Box
@@ -87,7 +85,7 @@ const PersonalStruggle = () => {
           implications of our time are dire. Our future, yet to be told. And even
           personally, these conflicting messages have embedded themselves in my
           thoughts. I have felt the debate between the beginning and the end rage
-          inside me as I battled with my health.
+          inside me as I battled with my health this year.
         </Typography>
         <Box
           sx={{
@@ -135,7 +133,7 @@ const PersonalStruggle = () => {
           }}
         >
           At the beginning of 2022, my life got put on hold. I had developed a wide
-          array of scary and debilitating symptoms after a covid infection. It has
+          array of scary and debilitating symptoms after a COVID infection. It has
           taken me 6 months to feel well enough to start shooting again. During
           this recovery journey I learned a lot about myself and how I want to live
           my life. Going through something like this I would be a fool not to learn
@@ -156,6 +154,22 @@ const PersonalStruggle = () => {
               xs: 0,
               md: 14,
             },
+          }}
+        >
+          Stories of long COVID recovery are few and far between with many
+          suffering for more than 2 years now. At some points I felt so sick, I
+          thought that was going to be me. Forever trapped inside my own body
+          with barely enough energy to get out of bed. The end has never felt so
+          near.
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            mt: 4,
+            pr: {
+              xs: 0,
+              md: 14,
+            },
             mb: {
               xs: 14,
               md: 38,
@@ -163,10 +177,10 @@ const PersonalStruggle = () => {
           }}
         >
           But the few stories I did see, I took to heart. If recovery was
-          possible, I would do it. I saw over 20 different specialists, spent
-          thousands on supplements, and tried numerous treatments including some
-          that are considered largely experimental. But I would not give up. I
-          would create again. I have a lot to say and I would not live my life
+          possible, I would do it. I saw over 20 different specialists and
+          tried numerous treatments including some that are considered largely
+          experimental. But I would not give up. I would create again. I have
+          a lot to say and I would not live my life
           with my art locked inside me. And with time, I have recovered. Today I
           would say I am 90% back to my normal self. The beginning is near.
         </Typography>

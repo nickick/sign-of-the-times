@@ -62,7 +62,6 @@ const ImageZoom: React.FC<Props> = ({
   imgSrc, imgAlt, colorType, count,
   // setIncrement,
 }) => {
-  const shadowRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
@@ -110,7 +109,7 @@ const ImageZoom: React.FC<Props> = ({
         // textRef.current.removeEventListener('mouseleave', onMouseLeave);
       }
     };
-  }, [shadowRef.current, imageRef.current]);
+  }, [imageRef.current]);
 
   return (
     <Box
@@ -208,23 +207,6 @@ const ImageZoom: React.FC<Props> = ({
       </Box>
       <Box
         sx={{
-          background: colorType === 'light' ? '#dadada' : '#212121',
-          width: 'min(39vw, 530px)',
-          height: 'min(39vw, 530px)',
-          position: 'absolute',
-          borderRadius: '50%',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%) scale(1.1)',
-          display: {
-            xs: 'none',
-            md: 'inherit',
-          },
-        }}
-        ref={shadowRef}
-      />
-      <Box
-        sx={{
           position: {
             xs: 'relative',
             md: 'absolute',
@@ -289,12 +271,15 @@ const ImageZoom: React.FC<Props> = ({
       </Box>
       <Typography
         variant="overline"
-        color={colorType === 'light' ? 'primary' : 'secondary'}
         sx={[
           {
             [colorType === 'light' ? 'left' : 'right']: {
               xs: 0,
               md: '4rem',
+            },
+            color: {
+              xs: 'white',
+              md: colorType === 'light' ? 'black' : 'white',
             },
             textAlign: {
               xs: 'center',
@@ -336,7 +321,7 @@ const ImageZoom: React.FC<Props> = ({
         <span>
           {count}
         </span>
-        Minted
+        Votes
       </Typography>
     </Box>
   );
