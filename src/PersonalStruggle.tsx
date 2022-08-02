@@ -159,8 +159,12 @@ const PersonalStruggle = () => {
           Stories of long COVID recovery are few and far between with many
           suffering for more than 2 years now. At some points I felt so sick, I
           thought that was going to be me. Forever trapped inside my own body
-          with barely enough energy to get out of bed. The end has never felt so
-          near.
+          with barely enough energy to get out of bed.
+          {' '}
+          <b>
+            The end has never felt so
+            near.
+          </b>
         </Typography>
         <Typography
           variant="body2"
@@ -182,7 +186,9 @@ const PersonalStruggle = () => {
           experimental. But I would not give up. I would create again. I have
           a lot to say and I would not live my life
           with my art locked inside me. And with time, I have recovered. Today I
-          would say I am 90% back to my normal self. The beginning is near.
+          would say I am 90% back to my normal self.
+          {' '}
+          <b>The beginning is near.</b>
         </Typography>
       </Box>
 
