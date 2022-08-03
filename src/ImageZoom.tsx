@@ -264,7 +264,7 @@ const ImageZoom: React.FC<Props> = ({
                 lineHeight: '2.0rem',
               }}
             >
-              Mint &#40;0.05 Eth&#41;
+              Minting soon &#40;0.05 Eth&#41;
             </Typography>
           </Button>
         </Box>
