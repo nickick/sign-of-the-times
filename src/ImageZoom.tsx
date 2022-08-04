@@ -188,7 +188,7 @@ const ImageZoom: React.FC<Props> = ({
               '& > img': {
                 width: '100%',
                 transform: {
-                  xs: `scale(3.5) ${colorType === 'light' ? 'translate(0rem, 0.6rem)' : 'translate(1.2rem, 0.1rem)'}`,
+                  xs: `scale(3.5) ${colorType === 'light' ? 'translate(0rem, 0.6rem)' : 'translate(0.2rem, 0.76rem)'}`,
                   md: 'scale(1.1)',
                 },
               },
