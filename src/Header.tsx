@@ -3,6 +3,7 @@ import {
 } from '@mui/material';
 import { Slant as Hamburger } from 'hamburger-react';
 import React, { FC, useCallback, useState } from 'react';
+import Notification from './Notification';
 import ConnectButton from './ConnectButton';
 import MobileDrawer from './Drawer';
 
@@ -60,7 +61,12 @@ const Header = () => {
   }, []);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Box
         sx={{
           position: {
@@ -154,6 +160,7 @@ const Header = () => {
         }}
         />
       </Box>
+      <Notification />
     </Box>
   );
 };

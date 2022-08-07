@@ -2,7 +2,9 @@ import {
   Box, Button, Typography, useMediaQuery, useTheme,
 } from '@mui/material';
 import gsap from 'gsap';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, {
+  useCallback, useContext, useEffect, useRef,
+} from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ContractContext, ContractStatus } from './ContractContextProvider';
 
@@ -50,6 +52,25 @@ const ImageZoom: React.FC<Props> = ({
     threshold: 0.1,
   });
 
+  const {
+    contractStatus, allowedGasOnlyMint, setErrorMessage, errorMessage,
+  } = useContext(ContractContext);
+
+  const onMintClick = useCallback(() => {
+    if (contractStatus === ContractStatus.Premint) {
+      if (allowedGasOnlyMint) {
+        // mintGasOnly
+      } else {
+        // error message about gas only mint
+        setErrorMessage('Connected wallet is not on allowlist');
+      }
+    } else if (contractStatus === ContractStatus.Mint) {
+      // public mint
+    }
+
+    // Paused, no-op
+  }, [errorMessage, contractStatus]);
+
   // const incrementUp = useCallback(() => {
   //   setIncrement(count + 1);
   // }, [count]);
@@ -90,8 +111,6 @@ const ImageZoom: React.FC<Props> = ({
       }
     };
   }, [imageRef.current]);
-
-  const { contractStatus } = useContext(ContractContext);
 
   return (
     <Box
@@ -237,6 +256,7 @@ const ImageZoom: React.FC<Props> = ({
                 md: 'inherit',
               },
             }}
+            onClick={onMintClick}
           >
             {
               contractStatus === ContractStatus.Paused && (

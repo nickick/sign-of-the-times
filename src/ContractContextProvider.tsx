@@ -3,7 +3,10 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { ethers } from 'ethers';
 import React, { createContext, useEffect, useState } from 'react';
+import keccak256 from 'keccak256';
+import { MerkleTree } from 'merkletreejs';
 import contractAbi from './contractAbi.json';
+import approvelist from './approvelist';
 
 // eslint-disable-next-line no-shadow
 export const enum ContractStatus {
@@ -18,6 +21,8 @@ interface ContextInterface {
   connectWallet: () => void;
   getContractStatus: () => Promise<ContractStatus>;
   contractStatus: ContractStatus;
+  allowedGasOnlyMint: boolean;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const ContractContext = createContext<ContextInterface>({} as ContextInterface);
@@ -29,6 +34,7 @@ type Props = {
 const ContractContextProvider = ({ children }: Props) => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [allowedGasOnlyMint, setAllowedGasOnlyMint] = useState(false);
   const [contractStatus, setContractStatus] = useState(0);
 
   const checkIfWalletIsConnected = async () => {
@@ -57,7 +63,7 @@ const ContractContextProvider = ({ children }: Props) => {
     try {
       if (!ethereum) {
         if (window.innerWidth < 800) {
-          window.location.replace('https://metamask.app.link/dapp/sign-of-the-times.vercel.app');
+          window.location.replace('https://metamask.app.link/dapp/signs-of-the-times.xyz');
         }
       }
 
@@ -81,7 +87,7 @@ const ContractContextProvider = ({ children }: Props) => {
     return provider;
   }
 
-  // fetch NYC365 Contract
+  // fetch Signs Contract
   const getSignsContract = () => {
     const provider = getProvider();
     const signer = provider.getSigner();
@@ -109,16 +115,47 @@ const ContractContextProvider = ({ children }: Props) => {
       const signsContract = getSignsContract();
       const status = await signsContract.contractStatus();
       setContractStatus(status);
-      return contractStatus;
+      return status;
     } catch (error) {
       handleError(error);
       return ContractStatus.Paused;
     }
   };
 
+  const canMintPrivate = async () => {
+    const { ethereum } = window;
+
+    try {
+      if (!ethereum) {
+        // eslint-disable-next-line no-alert
+        alert('Please install MetaMask or another wallet provider.');
+        return false;
+      }
+      const signsContract = await getSignsContract();
+      const leaves = approvelist.map(keccak256);
+      const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
+      const hexProof = merkleTree.getHexProof(keccak256(currentAccount || ''));
+      if (currentAccount) {
+        const approvedForMintGasOnly = await signsContract.approvedForMintGasOnly(
+          currentAccount,
+          hexProof,
+        );
+
+        setAllowedGasOnlyMint(approvedForMintGasOnly);
+        return approvedForMintGasOnly;
+      }
+
+      return false;
+    } catch (error) {
+      handleError(error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     checkIfWalletIsConnected();
     getContractStatus();
+    canMintPrivate();
   }, [currentAccount]);
 
   return (
@@ -128,6 +165,8 @@ const ContractContextProvider = ({ children }: Props) => {
       errorMessage,
       getContractStatus,
       contractStatus,
+      allowedGasOnlyMint,
+      setErrorMessage,
     }}
     >
       {children}
