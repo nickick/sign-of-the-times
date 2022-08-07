@@ -36,5 +36,9 @@
   ],
   "rules": {
     "@typescript-eslint/no-unused-vars": 0,
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ]
   },
 }
