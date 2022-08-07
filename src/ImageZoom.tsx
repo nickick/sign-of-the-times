@@ -2,8 +2,9 @@ import {
   Box, Button, Typography, useMediaQuery, useTheme,
 } from '@mui/material';
 import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { ContractContext, ContractStatus } from './ContractContextProvider';
 
 type Props = {
   imgSrc: string,
@@ -23,33 +24,12 @@ type AnimationSettings = {
 
 const magnification: number = 1.7;
 
-// const zoomShadowAimation: AnimationSettings = {
-//   scale: magnification,
-//   y: 0,
-//   duration: 0.5,
-//   ease: 'back.in(1.7)',
-// };
-
 const zoomImageAnimation: AnimationSettings = {
   scale: magnification,
   y: -70,
   duration: 0.5,
   ease: 'back.in(1.7)',
 };
-
-// const translateTextAnimation: AnimationSettings = {
-//   scale: 1,
-//   y: -70,
-//   duration: 0.5,
-//   ease: 'back.in(1.7)',
-// };
-
-// const resetTextAnimation: AnimationSettings = {
-//   scale: 1.0,
-//   y: 0,
-//   duration: 0.5,
-//   ease: 'back.in(1.7)',
-// };
 
 const resetAnimation: AnimationSettings = {
   scale: 1.1,
@@ -110,6 +90,8 @@ const ImageZoom: React.FC<Props> = ({
       }
     };
   }, [imageRef.current]);
+
+  const { contractStatus } = useContext(ContractContext);
 
   return (
     <Box
@@ -256,16 +238,48 @@ const ImageZoom: React.FC<Props> = ({
               },
             }}
           >
-            <Typography
-              variant="body2"
-              color={colorType === 'light' ? 'primary' : 'secondary'}
-              sx={{
-                fontSize: '1.5rem',
-                lineHeight: '2.0rem',
-              }}
-            >
-              Minting soon &#40;0.05 Eth&#41;
-            </Typography>
+            {
+              contractStatus === ContractStatus.Paused && (
+                <Typography
+                  variant="body2"
+                  color={colorType === 'light' ? 'primary' : 'secondary'}
+                  sx={{
+                    fontSize: '1.5rem',
+                    lineHeight: '2.0rem',
+                  }}
+                >
+                  Minting soon &#40;0.05 Eth&#41;
+                </Typography>
+              )
+            }
+            {
+              contractStatus === ContractStatus.Premint && (
+                <Typography
+                  variant="body2"
+                  color={colorType === 'light' ? 'primary' : 'secondary'}
+                  sx={{
+                    fontSize: '1.5rem',
+                    lineHeight: '2.0rem',
+                  }}
+                >
+                  Premint &#40;0.05 Eth&#41;
+                </Typography>
+              )
+            }
+            {
+              contractStatus === ContractStatus.Mint && (
+                <Typography
+                  variant="body2"
+                  color={colorType === 'light' ? 'primary' : 'secondary'}
+                  sx={{
+                    fontSize: '1.5rem',
+                    lineHeight: '2.0rem',
+                  }}
+                >
+                  Mint &#40;0.05 Eth&#41;
+                </Typography>
+              )
+            }
           </Button>
         </Box>
       </Box>

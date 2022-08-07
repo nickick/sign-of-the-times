@@ -6,7 +6,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import contractAbi from './contractAbi.json';
 
 // eslint-disable-next-line no-shadow
-enum ContractStatus {
+export const enum ContractStatus {
   Paused,
   Premint,
   Mint

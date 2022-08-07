@@ -118,7 +118,8 @@ const HowItWorks = () => {
           >
             If you hold a &quot;Painted Poetry&quot; piece, an edition of
             &quot;Golden Future&quot;, or any of Brendan&apos;s SuperRare
-            pieces, you are eligible to mint 1 gas-only edition.
+            pieces, you are eligible to mint 1 gas-only edition. You can also
+            pre-mint starting an hour before mint, at 11am PT.
           </Typography>
         </Box>
         <Box
