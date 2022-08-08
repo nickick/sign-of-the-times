@@ -6,6 +6,7 @@ import React, { FC, useCallback, useState } from 'react';
 import Notification from './Notification';
 import ConnectButton from './ConnectButton';
 import MobileDrawer from './Drawer';
+import Gallery from './Gallery';
 
 type Props = {
   link: string,
@@ -55,9 +56,18 @@ const headerLinks: Props[] = [
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   const closeDrawer = useCallback(() => {
     setIsOpen(false);
+  }, []);
+
+  const closeGallery = useCallback(() => {
+    setGalleryOpen(false);
+  }, []);
+
+  const openGallery = useCallback(() => {
+    setGalleryOpen(true);
   }, []);
 
   return (
@@ -67,6 +77,7 @@ const Header = () => {
         flexDirection: 'column',
       }}
     >
+      <Gallery open={galleryOpen} onClose={closeGallery} />
       <Box
         sx={{
           position: {
@@ -129,6 +140,17 @@ const Header = () => {
               key={text}
             />
           ))}
+          <Typography
+            variant="overline"
+            color="secondary"
+            sx={{
+              mr: 4,
+              cursor: 'pointer',
+            }}
+            onClick={openGallery}
+          >
+            Gallery
+          </Typography>
           <ConnectButton />
         </Box>
         <Box

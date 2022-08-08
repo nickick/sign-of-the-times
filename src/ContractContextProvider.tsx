@@ -360,24 +360,24 @@ const ContractContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    getBeginningSupply();
+    getEndSupply();
 
     if (currentAccount) {
       getContractStatus();
       canMintPrivate();
       getMintedPieces();
-      getBeginningSupply();
-      getEndSupply();
       getPrice();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
 
   useInterval(() => {
+    getBeginningSupply();
+    getEndSupply();
     if (currentAccount) {
       getContractStatus();
       getMintedPieces();
-      getBeginningSupply();
-      getEndSupply();
     }
   }, 5000);
 
