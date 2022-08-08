@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-constructed-context-values */
@@ -6,13 +7,20 @@ import React, { createContext, useEffect, useState } from 'react';
 import keccak256 from 'keccak256';
 import { MerkleTree } from 'merkletreejs';
 import contractAbi from './contractAbi.json';
-import approvelist from './approvelist';
+import allowlist from './allowlist';
 
 // eslint-disable-next-line no-shadow
 export const enum ContractStatus {
   Paused,
   Premint,
   Mint
+}
+
+type Piece = {
+  name?: string;
+  description?: string;
+  token_id?: string;
+  token_address?: string;
 }
 
 interface ContextInterface {
@@ -22,7 +30,15 @@ interface ContextInterface {
   getContractStatus: () => Promise<ContractStatus>;
   contractStatus: ContractStatus;
   allowedGasOnlyMint: boolean;
+  canMintGasOnly: boolean;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  transactionHash?: string;
+  transactionResult?: ethers.ContractReceipt;
+  isMinting: boolean;
+  mintedPieces: Piece[];
+  mintGasOnly: (beginningOrEnd: boolean) => Promise<any>;
+  beginningCount: number;
+  endCount: number;
 }
 
 export const ContractContext = createContext<ContextInterface>({} as ContextInterface);
@@ -35,7 +51,14 @@ const ContractContextProvider = ({ children }: Props) => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [allowedGasOnlyMint, setAllowedGasOnlyMint] = useState(false);
+  const [canMintGasOnly, setCanMintGasOnly] = useState(false);
   const [contractStatus, setContractStatus] = useState(0);
+  const [transactionHash, setTransactionHash] = useState<string>();
+  const [transactionResult, setTransactionResult] = useState<ethers.ContractReceipt>();
+  const [isMinting, setIsMinting] = useState(false);
+  const [beginningCount, setBeginningCount] = useState(0);
+  const [endCount, setEndCount] = useState(0);
+  const [mintedPieces, setMintedPieces] = useState<Piece[]>([]);
 
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
@@ -122,6 +145,70 @@ const ContractContextProvider = ({ children }: Props) => {
     }
   };
 
+  const getEndSupply = async () => {
+    const { ethereum } = window;
+
+    try {
+      if (!ethereum) return alert('Please install MetaMask.');
+      const signsContract = getSignsContract();
+      const newEndCountRaw = await signsContract.endCount();
+      const newEndCount = newEndCountRaw.toNumber();
+
+      setEndCount(newEndCount);
+      return newEndCount;
+    } catch (error) {
+      handleError(error);
+      return endCount;
+    }
+  };
+
+  const getBeginningSupply = async () => {
+    const { ethereum } = window;
+
+    try {
+      if (!ethereum) return alert('Please install MetaMask.');
+      const signsContract = getSignsContract();
+      const beginningCountRaw = await signsContract.beginningCount();
+      const newBeginningCount = beginningCountRaw.toNumber();
+
+      setBeginningCount(newBeginningCount);
+      return newBeginningCount;
+    } catch (error) {
+      handleError(error);
+      return beginningCount;
+    }
+  };
+
+  const getMintedPieces = async () => {
+    if (!currentAccount) return [];
+
+    try {
+      const results = await fetch(`/api/minted/${currentAccount}`);
+      const result = await results.json();
+      const signsContract = getSignsContract();
+
+      const pieces = await Promise.all(result.map(async (piece: Piece) => {
+        const metadataResult = await signsContract.tokenURI(
+          process.env.NEXT_PUBLIC_PROXY_CONTRACT_ADDRESS,
+          piece.token_id,
+        );
+
+        const metadataPrecursorIndex = 27;
+        const metadataParsed = JSON.parse(metadataResult.slice(metadataPrecursorIndex));
+
+        const metadata = { ...piece, ...metadataParsed };
+        return metadata;
+      }));
+
+      setMintedPieces(pieces);
+
+      return pieces;
+    } catch (error) {
+      handleError(error);
+      return [];
+    }
+  };
+
   const canMintPrivate = async () => {
     const { ethereum } = window;
 
@@ -131,18 +218,23 @@ const ContractContextProvider = ({ children }: Props) => {
         alert('Please install MetaMask or another wallet provider.');
         return false;
       }
-      const signsContract = await getSignsContract();
-      const leaves = approvelist.map(keccak256);
-      const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
-      const hexProof = merkleTree.getHexProof(keccak256(currentAccount || ''));
       if (currentAccount) {
+        const signsContract = getSignsContract();
+        const leaves = allowlist.map(keccak256);
+        const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
+        const hexProof = merkleTree.getHexProof(keccak256(currentAccount || ''));
+        // console.log(merkleTree.getHexRoot());
         const approvedForMintGasOnly = await signsContract.approvedForMintGasOnly(
           currentAccount,
           hexProof,
         );
 
+        setCanMintGasOnly(await signsContract.canMintGasOnly(
+          currentAccount,
+        ));
+
         setAllowedGasOnlyMint(approvedForMintGasOnly);
-        return approvedForMintGasOnly;
+        return approvedForMintGasOnly && canMintGasOnly;
       }
 
       return false;
@@ -152,10 +244,53 @@ const ContractContextProvider = ({ children }: Props) => {
     }
   };
 
+  const mintGasOnly = async (beginningOrEnd: boolean) => {
+    const { ethereum } = window;
+    setIsMinting(true);
+    setTransactionResult(undefined);
+
+    try {
+      if (!ethereum) {
+        // eslint-disable-next-line no-alert
+        alert('Please install MetaMask or another wallet provider.');
+        return false;
+      }
+
+      if (currentAccount) {
+        const signsContract = getSignsContract();
+        const leaves = allowlist.map(keccak256);
+        const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
+        const hexProof = merkleTree.getHexProof(keccak256(currentAccount || ''));
+        const gasOnlyMint: ethers.ContractTransaction = await signsContract.mintGasOnly(
+          beginningOrEnd,
+          hexProof,
+        );
+
+        setTransactionHash(gasOnlyMint.hash);
+        const gasOnlyMinted = await gasOnlyMint.wait(2);
+        setIsMinting(false);
+        await getEndSupply();
+        await getBeginningSupply();
+        await getMintedPieces();
+        setTransactionResult(gasOnlyMinted);
+        return gasOnlyMinted;
+      }
+
+      return false;
+    } catch (error) {
+      setIsMinting(false);
+      handleError(error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     checkIfWalletIsConnected();
     getContractStatus();
     canMintPrivate();
+    getMintedPieces();
+    getBeginningSupply();
+    getEndSupply();
   }, [currentAccount]);
 
   return (
@@ -167,6 +302,14 @@ const ContractContextProvider = ({ children }: Props) => {
       contractStatus,
       allowedGasOnlyMint,
       setErrorMessage,
+      transactionHash,
+      transactionResult,
+      canMintGasOnly,
+      isMinting,
+      mintedPieces,
+      mintGasOnly,
+      beginningCount,
+      endCount,
     }}
     >
       {children}

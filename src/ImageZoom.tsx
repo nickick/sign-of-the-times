@@ -53,13 +53,19 @@ const ImageZoom: React.FC<Props> = ({
   });
 
   const {
-    contractStatus, allowedGasOnlyMint, setErrorMessage, errorMessage,
+    contractStatus, allowedGasOnlyMint, setErrorMessage, mintGasOnly, canMintGasOnly, errorMessage,
   } = useContext(ContractContext);
 
   const onMintClick = useCallback(() => {
     if (contractStatus === ContractStatus.Premint) {
       if (allowedGasOnlyMint) {
         // mintGasOnly
+        if (canMintGasOnly) {
+          const beginningOrEndBool = colorType === 'light';
+          mintGasOnly(beginningOrEndBool);
+        } else {
+          setErrorMessage('Maximum pre-mints already minted');
+        }
       } else {
         // error message about gas only mint
         setErrorMessage('Connected wallet is not on allowlist');

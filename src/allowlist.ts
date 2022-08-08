@@ -1,0 +1,4 @@
+export default [
+  '0x7bCDF4ADbb79513bEb05C2f725cD5a82a1978FeB',
+  '0x1fC30Deba76628e93197F438E107BcEf51842D6f',
+];

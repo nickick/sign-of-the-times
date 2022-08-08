@@ -11,13 +11,16 @@ type Message = {
 const Notification: React.FC = () => {
   const { errorMessage, setErrorMessage } = useContext(ContractContext);
 
+  let errorMessageTruncated = errorMessage || '';
+
+  if (errorMessage && errorMessage.length > 100) {
+    const reasonIndex = Math.max(errorMessage?.indexOf('(reason="execution reverted: '), 0);
+    errorMessageTruncated = errorMessage.slice(reasonIndex + 29, reasonIndex + 29 + 150).concat(' ...');
+  }
+
   const message: Message = {
     type: 'error',
-    text: errorMessage
-      ? errorMessage.length > 100
-        ? `${errorMessage.slice(0, 100)}...`
-        : errorMessage
-      : '',
+    text: errorMessageTruncated,
   };
 
   const handleClose = () => {

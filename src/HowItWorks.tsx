@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
+import Mint from './Mint';
 
 const HowItWorks = () => {
   const { ref, inView } = useInView({
@@ -20,6 +21,7 @@ const HowItWorks = () => {
       }}
       id="how-it-works"
     >
+      <Mint />
       <Box
         sx={{
           py: 12,
