@@ -28,6 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         resolve(0);
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error);
         res.status(500).json({ message: error.message });
         resolve(0);
