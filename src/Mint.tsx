@@ -33,11 +33,17 @@ const MintedPiece = ({ name, token_address, token_id }: Props) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          pr: 2,
+          pr: {
+            xs: 1,
+            md: 2,
+          },
         },
         {
           '& > a > img': {
-            width: '200px',
+            width: {
+              xs: '140px',
+              md: '200px',
+            },
           },
         },
       ]}
@@ -51,7 +57,10 @@ const MintedPiece = ({ name, token_address, token_id }: Props) => {
           variant="body1"
           color="secondary"
           sx={{
-            fontSize: '2rem',
+            fontSize: {
+              xs: '1.5rem',
+              md: '2rem',
+            },
             lineHeight: '3rem',
             pr: 2,
             pt: 2,
@@ -259,7 +268,10 @@ const Mint = () => {
         </Box>
         <Box
           sx={{
-            display: 'flex',
+            display: {
+              xs: 'none',
+              md: 'flex',
+            },
             flexDirection: 'column',
             flex: 1,
           }}
