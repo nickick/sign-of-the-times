@@ -187,6 +187,7 @@ const ContractContextProvider = ({ children }: Props) => {
 
     try {
       const results = await fetch(`/api/minted/${currentAccount}`);
+      console.log(results);
       const result = await results.json();
       const signsContract = getSignsContract();
 
