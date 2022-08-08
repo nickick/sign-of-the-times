@@ -3,6 +3,7 @@ import { Button, Typography } from '@mui/material';
 import {
   ForwardedRef, forwardRef, useCallback, useContext,
 } from 'react';
+import ConnectButton from './ConnectButton';
 import { ContractContext, ContractStatus } from './ContractContextProvider';
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
 const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButtonElement>) => {
   const {
     contractStatus, allowedGasOnlyMint, setErrorMessage, mintGasOnly,
-    canMintGasOnly, errorMessage, mint,
+    canMintGasOnly, errorMessage, mint, currentAccount,
   } = useContext(ContractContext);
 
   const onMintClick = useCallback(() => {
@@ -42,6 +43,12 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
 
     // Paused, no-op
   }, [errorMessage, contractStatus, mintType]);
+
+  if (!currentAccount) {
+    return (
+      <ConnectButton />
+    );
+  }
 
   return (
     <Button

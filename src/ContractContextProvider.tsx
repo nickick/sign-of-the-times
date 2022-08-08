@@ -352,19 +352,24 @@ const ContractContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    getContractStatus();
-    canMintPrivate();
-    getMintedPieces();
-    getBeginningSupply();
-    getEndSupply();
-    getPrice();
+
+    if (currentAccount) {
+      getContractStatus();
+      canMintPrivate();
+      getMintedPieces();
+      getBeginningSupply();
+      getEndSupply();
+      getPrice();
+    }
   }, [currentAccount]);
 
   useInterval(() => {
-    getContractStatus();
-    getMintedPieces();
-    getBeginningSupply();
-    getEndSupply();
+    if (currentAccount) {
+      getContractStatus();
+      getMintedPieces();
+      getBeginningSupply();
+      getEndSupply();
+    }
   }, 5000);
 
   return (
