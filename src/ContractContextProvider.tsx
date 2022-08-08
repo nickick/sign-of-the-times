@@ -63,6 +63,25 @@ const ContractContextProvider = ({ children }: Props) => {
   const [mintedPieces, setMintedPieces] = useState<Piece[]>([]);
   const [price, setPrice] = useState<string>('0');
 
+  interface ErrorWithMessage {
+    message: string;
+  }
+
+  function handleError(error: unknown) {
+    let message = 'Unknown Error';
+    if (error instanceof Error) {
+      message = error.message;
+    } else if (typeof error === 'object' && error) {
+      if ('message' in error) {
+        const errorWithMessage = error as ErrorWithMessage;
+        message = errorWithMessage.message;
+      }
+    }
+
+    console.error(error);
+    setErrorMessage(message);
+  }
+
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
 
@@ -75,11 +94,7 @@ const ContractContextProvider = ({ children }: Props) => {
         // setErrorMessage("No accounts found");
       }
     } catch (error) {
-      let message = 'Unknown Error';
-      if (error instanceof Error) message = error.message;
-
-      console.error(message);
-      setErrorMessage(message);
+      handleError(error);
     }
   };
 
@@ -121,13 +136,6 @@ const ContractContextProvider = ({ children }: Props) => {
 
     return contract;
   };
-
-  function handleError(error: unknown) {
-    let message = 'Unknown Error';
-    if (error instanceof Error) message = error.message;
-    console.error(error);
-    setErrorMessage(message);
-  }
 
   const getContractStatus = async (): Promise<ContractStatus> => {
     const { ethereum } = window;
@@ -361,6 +369,7 @@ const ContractContextProvider = ({ children }: Props) => {
       getEndSupply();
       getPrice();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
 
   useInterval(() => {
