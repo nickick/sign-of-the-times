@@ -21,19 +21,25 @@ export async function mintedNFTs(account: string) {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
-  return new Promise((resolve) => {
+  await new Promise((resolve) => {
     mintedNFTs(id.toString())
-      .then((index) => {
-        res.status(200).send(index);
-        resolve(0);
+      .then((nfts) => {
+        resolve(nfts);
+        res.status(200).send(nfts);
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.log(error);
         res.status(500).json({ message: error.message });
-        resolve(0);
+        resolve(error);
       });
   });
 }
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 
 export default withSentry(handler);
