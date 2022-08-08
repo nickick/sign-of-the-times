@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withSentry } from '@sentry/nextjs';
 
-export async function mintedNFTs(account: string) {
+async function mintedNFTs(account: string) {
   const results = await fetch(
     `https://deep-index.moralis.io/api/v2/${account}/nft/${process.env.NEXT_PUBLIC_PROXY_CONTRACT_ADDRESS}?chain=${process.env.NEXT_PUBLIC_CHAIN_NAME}`,
     {
@@ -21,19 +21,12 @@ export async function mintedNFTs(account: string) {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
-  await new Promise((resolve) => {
-    mintedNFTs(id.toString())
-      .then((nfts) => {
-        resolve(nfts);
-        res.status(200).send(nfts);
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        res.status(500).json({ message: error.message });
-        resolve(error);
-      });
-  });
+  try {
+    const pieces = await mintedNFTs(id.toString());
+    return res.status(200).json(pieces);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
 }
 
 export const config = {
