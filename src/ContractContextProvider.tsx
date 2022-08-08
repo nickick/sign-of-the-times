@@ -81,6 +81,9 @@ const ContractContextProvider = ({ children }: Props) => {
       if ('message' in error) {
         const errorWithMessage = error as ErrorWithMessage;
         message = errorWithMessage.message;
+        if (errorWithMessage.message.indexOf('Transaction reverted without a reason string') > -1) {
+          return;
+        }
       }
     }
 

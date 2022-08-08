@@ -106,7 +106,7 @@ type GalleryProps = {
 const Gallery = ({ open, onClose }: GalleryProps) => {
   const {
     isMinting, transactionHash, transactionResult, mintedPieces,
-    contractStatus, approveForBurn, mintTheSignsOfTheTimes,
+    contractStatus, approveForBurn, mintTheSignsOfTheTimes, currentAccount,
   } = useContext(ContractContext);
 
   const [selected, setSelected] = useState<string[]>([]);
@@ -246,7 +246,22 @@ const Gallery = ({ open, onClose }: GalleryProps) => {
                 }}
               >
                 Your transactions and minted NFTs will appear here.
+                <br />
                 There may be small delays between minting and displaying NFTs.
+                <br />
+                You can check your minted NFTs in
+                {' '}
+                <Link
+                  href={`https://opensea.io/${currentAccount}`}
+                  target="_blank"
+                  sx={{
+                    color: 'white',
+                    textDecorationColor: 'white',
+                  }}
+                >
+                  Opensea
+                </Link>
+                .
               </Typography>
               {
                 transactionHash && (
