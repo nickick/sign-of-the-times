@@ -7,8 +7,6 @@ import ImageZoom from './ImageZoom';
 import MeteoricRise from './MeteoricRise';
 import PersonalStruggle from './PersonalStruggle';
 
-// const [beginningMint, setBeginningMint] = useState(0);
-// const [endMint, setEndMint] = useState(0);
 const Landing: React.FC = () => {
   const { beginningCount, endCount } = useContext(ContractContext);
 
@@ -40,7 +38,7 @@ const Landing: React.FC = () => {
           sx={{
             width: {
               xs: '100%',
-              md: `${(0 || 1) / ((0 || 1) + (0 || 1))}`,
+              md: `${(endCount || 1) / ((endCount || 1) + (beginningCount || 1))}`,
             },
             height: {
               xs: '55%',

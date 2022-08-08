@@ -127,7 +127,7 @@ const Mint = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            flex: 8,
+            flex: 7,
           }}
         >
           <Typography
@@ -139,6 +139,7 @@ const Mint = () => {
             }}
           >
             Your transactions and minted NFTs will appear here.
+            There may be small delays between minting and displaying NFTs.
           </Typography>
           {
             transactionHash && (
@@ -256,6 +257,13 @@ const Mint = () => {
             }
           </Box>
         </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+          }}
+        />
       </Box>
     </Box>
   );

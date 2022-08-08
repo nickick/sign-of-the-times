@@ -8,6 +8,7 @@ import keccak256 from 'keccak256';
 import { MerkleTree } from 'merkletreejs';
 import contractAbi from './contractAbi.json';
 import allowlist from './allowlist';
+import useInterval from './hooks/useInterval';
 
 // eslint-disable-next-line no-shadow
 export const enum ContractStatus {
@@ -154,7 +155,7 @@ const ContractContextProvider = ({ children }: Props) => {
       if (!ethereum) return alert('Please install MetaMask.');
       const signsContract = getSignsContract();
       const newEndCountRaw = await signsContract.endCount();
-      const newEndCount = newEndCountRaw.toNumber();
+      const newEndCount = parseInt(newEndCountRaw, 10);
 
       setEndCount(newEndCount);
       return newEndCount;
@@ -171,7 +172,7 @@ const ContractContextProvider = ({ children }: Props) => {
       if (!ethereum) return alert('Please install MetaMask.');
       const signsContract = getSignsContract();
       const beginningCountRaw = await signsContract.beginningCount();
-      const newBeginningCount = beginningCountRaw.toNumber();
+      const newBeginningCount = parseInt(beginningCountRaw, 10);
 
       setBeginningCount(newBeginningCount);
       return newBeginningCount;
@@ -358,6 +359,13 @@ const ContractContextProvider = ({ children }: Props) => {
     getEndSupply();
     getPrice();
   }, [currentAccount]);
+
+  useInterval(() => {
+    getContractStatus();
+    getMintedPieces();
+    getBeginningSupply();
+    getEndSupply();
+  }, 5000);
 
   return (
     <ContractContext.Provider value={{

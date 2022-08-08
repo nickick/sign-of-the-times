@@ -160,12 +160,12 @@
         "type": "address"
       }
     ],
-    "name": "addressToTokenCount",
+    "name": "addressToGasOnlyMint",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bool",
         "name": "",
-        "type": "uint256"
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -213,9 +213,9 @@
     "name": "beginningCount",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -241,6 +241,29 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "tokenId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "enum SignsOfTheTimes.TokenType",
+        "name": "tokenType",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "count",
+        "type": "uint256"
+      }
+    ],
+    "name": "changeTokenInfo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "contractStatus",
     "outputs": [
@@ -258,9 +281,9 @@
     "name": "endCount",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -319,9 +342,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256[]",
+        "internalType": "uint16[]",
         "name": "tokenIds",
-        "type": "uint256[]"
+        "type": "uint16[]"
       }
     ],
     "name": "mintComposite",
@@ -343,19 +366,6 @@
       }
     ],
     "name": "mintGasOnly",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "supply",
-        "type": "uint256"
-      }
-    ],
-    "name": "overrideTotalSupply",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -477,36 +487,22 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
-    "name": "tokenToCount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenToTokenType",
+    "name": "tokenIdToTokenInfo",
     "outputs": [
       {
         "internalType": "enum SignsOfTheTimes.TokenType",
-        "name": "",
+        "name": "tokenType",
         "type": "uint8"
+      },
+      {
+        "internalType": "uint16",
+        "name": "tokenTypeCount",
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -537,19 +533,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "totalSupply",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -568,6 +551,11 @@
         "internalType": "address",
         "name": "to",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
       }
     ],
     "name": "withdraw",
