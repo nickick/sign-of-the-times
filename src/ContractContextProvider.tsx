@@ -36,7 +36,8 @@ interface ContextInterface {
   transactionResult?: ethers.ContractReceipt;
   isMinting: boolean;
   mintedPieces: Piece[];
-  mintGasOnly: (beginningOrEnd: boolean) => Promise<any>;
+  mintGasOnly: (beginningOrEnd: boolean) => Promise<false | ethers.ContractReceipt>;
+  mint: (beginningOrEnd: boolean) => Promise<false | ethers.ContractReceipt>;
   beginningCount: number;
   endCount: number;
 }
@@ -59,6 +60,7 @@ const ContractContextProvider = ({ children }: Props) => {
   const [beginningCount, setBeginningCount] = useState(0);
   const [endCount, setEndCount] = useState(0);
   const [mintedPieces, setMintedPieces] = useState<Piece[]>([]);
+  const [price, setPrice] = useState<string>('0');
 
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
@@ -246,6 +248,7 @@ const ContractContextProvider = ({ children }: Props) => {
 
   const mintGasOnly = async (beginningOrEnd: boolean) => {
     const { ethereum } = window;
+    setTransactionHash(undefined);
     setIsMinting(true);
     setTransactionResult(undefined);
 
@@ -284,6 +287,68 @@ const ContractContextProvider = ({ children }: Props) => {
     }
   };
 
+  const getPrice = async () => {
+    const { ethereum } = window;
+
+    try {
+      if (!ethereum) {
+        // eslint-disable-next-line no-alert
+        alert('Please install MetaMask or another wallet provider.');
+        return false;
+      }
+      const signsContract = getSignsContract();
+      // eslint-disable-next-line no-underscore-dangle
+      const contractPrice = await signsContract._price();
+      setPrice(contractPrice.toString());
+      return contractPrice.toString();
+    } catch (error) {
+      setIsMinting(false);
+      handleError(error);
+      return '0';
+    }
+  };
+
+  const mint = async (beginningOrEnd: boolean) => {
+    const { ethereum } = window;
+    setTransactionHash(undefined);
+    setIsMinting(true);
+    setTransactionResult(undefined);
+
+    try {
+      if (!ethereum) {
+        // eslint-disable-next-line no-alert
+        alert('Please install MetaMask or another wallet provider.');
+        return false;
+      }
+
+      if (currentAccount) {
+        const signsContract = getSignsContract();
+        const mintTxn: ethers.ContractTransaction = await signsContract.mint(
+          1,
+          beginningOrEnd,
+          {
+            value: ethers.utils.parseEther(ethers.utils.formatEther(price)),
+          },
+        );
+
+        setTransactionHash(mintTxn.hash);
+        const minted = await mintTxn.wait(2);
+        setIsMinting(false);
+        await getEndSupply();
+        await getBeginningSupply();
+        await getMintedPieces();
+        setTransactionResult(minted);
+        return minted;
+      }
+
+      return false;
+    } catch (error) {
+      setIsMinting(false);
+      handleError(error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     checkIfWalletIsConnected();
     getContractStatus();
@@ -291,6 +356,7 @@ const ContractContextProvider = ({ children }: Props) => {
     getMintedPieces();
     getBeginningSupply();
     getEndSupply();
+    getPrice();
   }, [currentAccount]);
 
   return (
@@ -308,6 +374,7 @@ const ContractContextProvider = ({ children }: Props) => {
       isMinting,
       mintedPieces,
       mintGasOnly,
+      mint,
       beginningCount,
       endCount,
     }}

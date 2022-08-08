@@ -127,7 +127,7 @@ const Mint = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            flex: 7,
+            flex: 8,
           }}
         >
           <Typography

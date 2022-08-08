@@ -1,12 +1,10 @@
 import {
-  Box, Button, Typography, useMediaQuery, useTheme,
+  Box, Typography, useMediaQuery, useTheme,
 } from '@mui/material';
 import gsap from 'gsap';
-import React, {
-  useCallback, useContext, useEffect, useRef,
-} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { ContractContext, ContractStatus } from './ContractContextProvider';
+import MintButton from './MintButton';
 
 type Props = {
   imgSrc: string,
@@ -51,32 +49,6 @@ const ImageZoom: React.FC<Props> = ({
     triggerOnce: true,
     threshold: 0.1,
   });
-
-  const {
-    contractStatus, allowedGasOnlyMint, setErrorMessage, mintGasOnly, canMintGasOnly, errorMessage,
-  } = useContext(ContractContext);
-
-  const onMintClick = useCallback(() => {
-    if (contractStatus === ContractStatus.Premint) {
-      if (allowedGasOnlyMint) {
-        // mintGasOnly
-        if (canMintGasOnly) {
-          const beginningOrEndBool = colorType === 'light';
-          mintGasOnly(beginningOrEndBool);
-        } else {
-          setErrorMessage('Maximum pre-mints already minted');
-        }
-      } else {
-        // error message about gas only mint
-        setErrorMessage('Connected wallet is not on allowlist');
-      }
-    } else if (contractStatus === ContractStatus.Mint) {
-      // public mint
-    }
-
-    // Paused, no-op
-  }, [errorMessage, contractStatus]);
-
   // const incrementUp = useCallback(() => {
   //   setIncrement(count + 1);
   // }, [count]);
@@ -250,63 +222,7 @@ const ImageZoom: React.FC<Props> = ({
             },
           }}
         >
-          <Button
-            variant="contained"
-            color={colorType === 'light' ? 'secondary' : 'success'}
-            ref={buttonRef}
-            sx={{
-              py: 1.5,
-              px: 3,
-              width: {
-                xs: '100%',
-                md: 'inherit',
-              },
-            }}
-            onClick={onMintClick}
-          >
-            {
-              contractStatus === ContractStatus.Paused && (
-                <Typography
-                  variant="body2"
-                  color={colorType === 'light' ? 'primary' : 'secondary'}
-                  sx={{
-                    fontSize: '1.5rem',
-                    lineHeight: '2.0rem',
-                  }}
-                >
-                  Minting soon &#40;0.05 Eth&#41;
-                </Typography>
-              )
-            }
-            {
-              contractStatus === ContractStatus.Premint && (
-                <Typography
-                  variant="body2"
-                  color={colorType === 'light' ? 'primary' : 'secondary'}
-                  sx={{
-                    fontSize: '1.5rem',
-                    lineHeight: '2.0rem',
-                  }}
-                >
-                  Premint &#40;0.05 Eth&#41;
-                </Typography>
-              )
-            }
-            {
-              contractStatus === ContractStatus.Mint && (
-                <Typography
-                  variant="body2"
-                  color={colorType === 'light' ? 'primary' : 'secondary'}
-                  sx={{
-                    fontSize: '1.5rem',
-                    lineHeight: '2.0rem',
-                  }}
-                >
-                  Mint &#40;0.05 Eth&#41;
-                </Typography>
-              )
-            }
-          </Button>
+          <MintButton mintType={colorType === 'light' ? 'beginning' : 'end'} />
         </Box>
       </Box>
       <Typography
