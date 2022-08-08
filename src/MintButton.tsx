@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { Button, Typography } from '@mui/material';
 import {
   ForwardedRef, forwardRef, useCallback, useContext,
@@ -40,7 +41,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
     }
 
     // Paused, no-op
-  }, [errorMessage, contractStatus]);
+  }, [errorMessage, contractStatus, mintType]);
 
   return (
     <Button
