@@ -7,6 +7,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import keccak256 from 'keccak256';
 import { MerkleTree } from 'merkletreejs';
 import contractAbi from './contractAbi.json';
+import proxyAbi from './proxyAbi.json';
 import allowlist from './allowlist';
 import useInterval from './hooks/useInterval';
 
@@ -43,6 +44,8 @@ interface ContextInterface {
   endCount: number;
   galleryOpen: boolean;
   setGalleryOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  approveForBurn: (tokenId: string) => Promise<boolean>;
+  mintTheSignsOfTheTimes: (tokenIds: string[]) => Promise<boolean>;
 }
 
 export const ContractContext = createContext<ContextInterface>({} as ContextInterface);
@@ -97,6 +100,7 @@ const ContractContextProvider = ({ children }: Props) => {
         // setErrorMessage("No accounts found");
       }
     } catch (error) {
+      console.error('checkIfWalletIsConnected');
       handleError(error);
     }
   };
@@ -140,6 +144,20 @@ const ContractContextProvider = ({ children }: Props) => {
     return contract;
   };
 
+  const getProxyContract = () => {
+    const provider = getProvider();
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      process.env.NEXT_PUBLIC_IMPLEMENTATION_CONTRACT_ADDRESS || '',
+      proxyAbi,
+      signer,
+    );
+
+    return contract.attach(
+      process.env.NEXT_PUBLIC_PROXY_CONTRACT_ADDRESS || '',
+    );
+  };
+
   const getContractStatus = async (): Promise<ContractStatus> => {
     const { ethereum } = window;
 
@@ -154,6 +172,7 @@ const ContractContextProvider = ({ children }: Props) => {
       setContractStatus(status);
       return status;
     } catch (error) {
+      console.error('getcontractstatus');
       handleError(error);
       return ContractStatus.Paused;
     }
@@ -171,6 +190,7 @@ const ContractContextProvider = ({ children }: Props) => {
       setEndCount(newEndCount);
       return newEndCount;
     } catch (error) {
+      console.error('getEndSupply');
       handleError(error);
       return endCount;
     }
@@ -188,6 +208,7 @@ const ContractContextProvider = ({ children }: Props) => {
       setBeginningCount(newBeginningCount);
       return newBeginningCount;
     } catch (error) {
+      console.error('getBeginningSupply');
       handleError(error);
       return beginningCount;
     }
@@ -218,6 +239,7 @@ const ContractContextProvider = ({ children }: Props) => {
 
       return pieces;
     } catch (error) {
+      console.error('getMintedPieces');
       handleError(error);
       return [];
     }
@@ -253,6 +275,7 @@ const ContractContextProvider = ({ children }: Props) => {
 
       return false;
     } catch (error) {
+      console.error('canMintPrivate');
       handleError(error);
       return false;
     }
@@ -281,6 +304,7 @@ const ContractContextProvider = ({ children }: Props) => {
           hexProof,
         );
 
+        setGalleryOpen(true);
         setTransactionHash(gasOnlyMint.hash);
         const gasOnlyMinted = await gasOnlyMint.wait(2);
         setIsMinting(false);
@@ -294,6 +318,7 @@ const ContractContextProvider = ({ children }: Props) => {
       return false;
     } catch (error) {
       setIsMinting(false);
+      console.error('mintGasOnly');
       handleError(error);
       return false;
     }
@@ -315,6 +340,7 @@ const ContractContextProvider = ({ children }: Props) => {
       return contractPrice.toString();
     } catch (error) {
       setIsMinting(false);
+      console.error('getPrice');
       handleError(error);
       return '0';
     }
@@ -343,6 +369,7 @@ const ContractContextProvider = ({ children }: Props) => {
           },
         );
 
+        setGalleryOpen(true);
         setTransactionHash(mintTxn.hash);
         const minted = await mintTxn.wait(2);
         setIsMinting(false);
@@ -355,6 +382,85 @@ const ContractContextProvider = ({ children }: Props) => {
 
       return false;
     } catch (error) {
+      setIsMinting(false);
+      console.error('mint');
+      handleError(error);
+      return false;
+    }
+  };
+
+  const approveForBurn = async (tokenId: string) => {
+    const { ethereum } = window;
+    setTransactionHash(undefined);
+    setIsMinting(true);
+    setTransactionResult(undefined);
+
+    try {
+      if (!ethereum) {
+        // eslint-disable-next-line no-alert
+        alert('Please install MetaMask or another wallet provider.');
+        return false;
+      }
+
+      if (currentAccount) {
+        const proxyContract = getProxyContract();
+        const approveTxn = await proxyContract.approve(
+          process.env.NEXT_PUBLIC_SIGNS_CONTRACT_ADDRESS,
+          tokenId,
+        );
+
+        setTransactionHash(approveTxn.hash);
+        const approvedReceipt = await approveTxn.wait(2);
+        setTransactionResult(approvedReceipt);
+        setIsMinting(false);
+        return approvedReceipt.status === 1;
+      }
+
+      setIsMinting(false);
+      return false;
+    } catch (error) {
+      console.error('approveForburn');
+      setIsMinting(false);
+      handleError(error);
+      return false;
+    }
+  };
+
+  const mintTheSignsOfTheTimes = async (
+    tokenIds: string[],
+  ) => {
+    const { ethereum } = window;
+    setTransactionHash(undefined);
+    setIsMinting(true);
+    setTransactionResult(undefined);
+
+    try {
+      if (!ethereum) {
+        // eslint-disable-next-line no-alert
+        alert('Please install MetaMask or another wallet provider.');
+        return false;
+      }
+
+      if (currentAccount) {
+        const signsContract = getSignsContract();
+        const mintTxn = await signsContract.mintComposite(
+          tokenIds,
+        );
+
+        setTransactionHash(mintTxn.hash);
+        const mintReceipt = await mintTxn.wait(2);
+        setTransactionResult(mintReceipt);
+        setIsMinting(false);
+        await getEndSupply();
+        await getBeginningSupply();
+        await getMintedPieces();
+        return mintReceipt.status === 1;
+      }
+
+      setIsMinting(false);
+      return false;
+    } catch (error) {
+      console.error('mintComposite');
       setIsMinting(false);
       handleError(error);
       return false;
@@ -404,6 +510,8 @@ const ContractContextProvider = ({ children }: Props) => {
       endCount,
       galleryOpen,
       setGalleryOpen,
+      approveForBurn,
+      mintTheSignsOfTheTimes,
     }}
     >
       {children}
