@@ -2,11 +2,14 @@ import {
   Box, Link, Typography,
 } from '@mui/material';
 import { Slant as Hamburger } from 'hamburger-react';
-import React, { FC, useCallback, useState } from 'react';
+import React, {
+  FC, useCallback, useContext, useState,
+} from 'react';
 import Notification from './Notification';
 import ConnectButton from './ConnectButton';
 import MobileDrawer from './Drawer';
 import Gallery from './Gallery';
+import { ContractContext } from './ContractContextProvider';
 
 type Props = {
   link: string,
@@ -19,7 +22,7 @@ const HeaderLink: FC<Props> = ({ link, text }) => {
     document.getElementById(link)?.scrollIntoView({
       behavior: 'smooth',
     });
-  }, []);
+  }, [link]);
 
   return (
     <Link
@@ -56,7 +59,7 @@ const headerLinks: Props[] = [
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [galleryOpen, setGalleryOpen] = useState(false);
+  const { galleryOpen, setGalleryOpen } = useContext(ContractContext);
 
   const closeDrawer = useCallback(() => {
     setIsOpen(false);

@@ -41,6 +41,8 @@ interface ContextInterface {
   mint: (beginningOrEnd: boolean) => Promise<false | ethers.ContractReceipt>;
   beginningCount: number;
   endCount: number;
+  galleryOpen: boolean;
+  setGalleryOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ContractContext = createContext<ContextInterface>({} as ContextInterface);
@@ -62,6 +64,7 @@ const ContractContextProvider = ({ children }: Props) => {
   const [endCount, setEndCount] = useState(0);
   const [mintedPieces, setMintedPieces] = useState<Piece[]>([]);
   const [price, setPrice] = useState<string>('0');
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   interface ErrorWithMessage {
     message: string;
@@ -399,6 +402,8 @@ const ContractContextProvider = ({ children }: Props) => {
       mint,
       beginningCount,
       endCount,
+      galleryOpen,
+      setGalleryOpen,
     }}
     >
       {children}
