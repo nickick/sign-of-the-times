@@ -39,7 +39,7 @@ interface ContextInterface {
   isMinting: boolean;
   mintedPieces: Piece[];
   mintGasOnly: (beginningOrEnd: boolean) => Promise<false | ethers.ContractReceipt>;
-  mint: (beginningOrEnd: boolean) => Promise<false | ethers.ContractReceipt>;
+  mint: (beginningOrEnd: boolean, quantity: number) => Promise<false | ethers.ContractReceipt>;
   beginningCount: number;
   endCount: number;
   galleryOpen: boolean;
@@ -328,7 +328,7 @@ const ContractContextProvider = ({ children }: Props) => {
     }
   };
 
-  const mint = async (beginningOrEnd: boolean) => {
+  const mint = async (beginningOrEnd: boolean, quantity: number) => {
     const { ethereum } = window;
     setTransactionHash(undefined);
     setIsMinting(true);
@@ -344,10 +344,10 @@ const ContractContextProvider = ({ children }: Props) => {
       if (currentAccount) {
         const signsContract = getSignsContract();
         const mintTxn: ethers.ContractTransaction = await signsContract.mint(
-          1,
+          quantity,
           beginningOrEnd,
           {
-            value: ethers.utils.parseEther('0.05'),
+            value: ethers.utils.parseEther((quantity * 0.05).toFixed(2).toString()),
           },
         );
 
