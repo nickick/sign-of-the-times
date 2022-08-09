@@ -11,8 +11,6 @@ type Props = {
   imgAlt: string,
   colorType: 'light' | 'dark',
   count: number,
-  // eslint-disable-next-line no-unused-vars
-  // setIncrement: (x: number) => void,
 }
 
 type AnimationSettings = {
@@ -40,18 +38,13 @@ const resetAnimation: AnimationSettings = {
 
 const ImageZoom: React.FC<Props> = ({
   imgSrc, imgAlt, colorType, count,
-  // setIncrement,
 }) => {
   const imageRef = useRef<HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
-  // const incrementUp = useCallback(() => {
-  //   setIncrement(count + 1);
-  // }, [count]);
 
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up('md'));
@@ -59,36 +52,33 @@ const ImageZoom: React.FC<Props> = ({
   useEffect(() => {
     const onMouseEnter = () => {
       gsap.to(imageRef.current, zoomImageAnimation);
-      // gsap.to(shadowRef.current, zoomShadowAimation);
-      // gsap.to(textRef.current, translateTextAnimation);
     };
 
     const onMouseLeave = () => {
       gsap.to(imageRef.current, resetAnimation);
-      // gsap.to(shadowRef.current, resetAnimation);
-      // gsap.to(textRef.current, resetTextAnimation);
     };
 
-    if (imageRef.current && buttonRef.current && textRef.current && matchesMd) {
-      imageRef.current.addEventListener('mouseenter', onMouseEnter);
-      imageRef.current.addEventListener('mouseleave', onMouseLeave);
-      buttonRef.current.addEventListener('mouseenter', onMouseEnter);
-      buttonRef.current.addEventListener('mouseleave', onMouseLeave);
-      // textRef.current.addEventListener('mouseenter', onMouseEnter);
-      // textRef.current.addEventListener('mouseleave', onMouseLeave);
+    let imageRefCurrent: HTMLImageElement;
+    let buttonRefCurrent: HTMLButtonElement;
+
+    if (imageRef.current && buttonRef.current && matchesMd) {
+      imageRefCurrent = imageRef.current;
+      buttonRefCurrent = buttonRef.current;
+      imageRefCurrent.addEventListener('mouseenter', onMouseEnter);
+      imageRefCurrent.addEventListener('mouseleave', onMouseLeave);
+      buttonRefCurrent.addEventListener('mouseenter', onMouseEnter);
+      buttonRefCurrent.addEventListener('mouseleave', onMouseLeave);
     }
 
     return () => {
-      if (imageRef.current && buttonRef.current && textRef.current && matchesMd) {
-        imageRef.current.removeEventListener('mouseenter', onMouseEnter);
-        imageRef.current.removeEventListener('mouseleave', onMouseLeave);
-        buttonRef.current.removeEventListener('mouseenter', onMouseEnter);
-        buttonRef.current.removeEventListener('mouseleave', onMouseLeave);
-        // textRef.current.removeEventListener('mouseenter', onMouseEnter);
-        // textRef.current.removeEventListener('mouseleave', onMouseLeave);
+      if (imageRefCurrent && buttonRefCurrent && matchesMd) {
+        imageRefCurrent.removeEventListener('mouseenter', onMouseEnter);
+        imageRefCurrent.removeEventListener('mouseleave', onMouseLeave);
+        buttonRefCurrent.removeEventListener('mouseenter', onMouseEnter);
+        buttonRefCurrent.removeEventListener('mouseleave', onMouseLeave);
       }
     };
-  }, [imageRef.current]);
+  }, [imageRef.current, buttonRef.current, matchesMd]);
 
   return (
     <Box
@@ -222,7 +212,7 @@ const ImageZoom: React.FC<Props> = ({
             },
           }}
         >
-          <MintButton mintType={colorType === 'light' ? 'beginning' : 'end'} />
+          <MintButton mintType={colorType === 'light' ? 'beginning' : 'end'} ref={buttonRef} />
         </Box>
       </Box>
       <Typography
@@ -272,7 +262,6 @@ const ImageZoom: React.FC<Props> = ({
             },
           },
         ]}
-        ref={textRef}
       >
         <span>
           {count}
