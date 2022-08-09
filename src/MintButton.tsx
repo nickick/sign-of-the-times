@@ -109,7 +109,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
               lineHeight: '2.0rem',
             }}
           >
-            Premint &#40;0.05 Eth&#41;
+            Premint
           </Typography>
         )
       }
