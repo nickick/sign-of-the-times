@@ -230,7 +230,7 @@ const SignsMinter = ({ open, onClose }: GalleryProps) => {
                 Follow the instructions to mint &quot;The Signs of the Times&quot;.
               </Typography>
               {
-                contractStatus === ContractStatus.Paused && mintedPieces.length > 1 && (
+                contractStatus === ContractStatus.Paused && mintedPieces.length > 0 && (
                   <Box>
                     {
                       selectingMode && (
