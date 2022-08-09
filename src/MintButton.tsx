@@ -22,10 +22,14 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
   const isOver = contractStatus === ContractStatus.Paused
     && (endCount > 0 || beginningCount > 0);
 
+  const canPremint = (
+    contractStatus === ContractStatus.Paused || contractStatus === ContractStatus.Mint
+  ) && canMintGasOnly && allowedGasOnlyMint;
+
   const onMintClick = useCallback(() => {
     const beginningOrEndBool = mintType === 'beginning';
 
-    if (contractStatus === ContractStatus.Premint) {
+    if (canPremint) {
       mintGasOnly(beginningOrEndBool);
       // if (allowedGasOnlyMint) {
       //   // mintGasOnly
@@ -100,7 +104,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
         )
       }
       {
-        contractStatus === ContractStatus.Premint && (
+        canPremint && (
           <Typography
             variant="body2"
             color={mintType === 'beginning' ? 'primary' : 'secondary'}
@@ -109,12 +113,12 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
               lineHeight: '2.0rem',
             }}
           >
-            Premint
+            Gas-only Mint
           </Typography>
         )
       }
       {
-        contractStatus === ContractStatus.Mint && (
+        contractStatus === ContractStatus.Mint && !canPremint && (
           <Typography
             variant="body2"
             color={mintType === 'beginning' ? 'primary' : 'secondary'}
