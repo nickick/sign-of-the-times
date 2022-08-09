@@ -266,12 +266,13 @@ const ContractContextProvider = ({ children }: Props) => {
           currentAccount,
           hexProof,
         );
-
-        setCanMintGasOnly(await signsContract.canMintGasOnly(
-          currentAccount,
-        ));
-
         setAllowedGasOnlyMint(approvedForMintGasOnly);
+
+        const canMintGasOnlyCall = await signsContract.canMintGasOnly(
+          currentAccount,
+        );
+        setCanMintGasOnly(canMintGasOnlyCall);
+
         return approvedForMintGasOnly && canMintGasOnly;
       }
 

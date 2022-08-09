@@ -52,7 +52,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
     }
 
     // Paused, no-op
-  }, [errorMessage, contractStatus, mintType]);
+  }, [errorMessage, contractStatus, mintType, canPremint]);
 
   if (!currentAccount) {
     return (
