@@ -311,6 +311,7 @@ const ContractContextProvider = ({ children }: Props) => {
         setTransactionHash(gasOnlyMint.hash);
         const gasOnlyMinted = await gasOnlyMint.wait(2);
         setIsMinting(false);
+        setCanMintGasOnly(false);
         await getEndSupply();
         await getBeginningSupply();
         await getMintedPieces();
@@ -472,10 +473,10 @@ const ContractContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    getBeginningSupply();
-    getEndSupply();
 
     if (currentAccount) {
+      getBeginningSupply();
+      getEndSupply();
       getContractStatus();
       canMintPrivate();
       getMintedPieces();
@@ -485,9 +486,9 @@ const ContractContextProvider = ({ children }: Props) => {
   }, [currentAccount]);
 
   useInterval(() => {
-    getBeginningSupply();
-    getEndSupply();
     if (currentAccount) {
+      getBeginningSupply();
+      getEndSupply();
       getContractStatus();
       getMintedPieces();
     }

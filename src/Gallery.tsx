@@ -2,24 +2,20 @@
 /* eslint-disable react/require-default-props */
 import { Check, Close } from '@mui/icons-material';
 import {
-  Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Link, Typography,
+  Box, CircularProgress, Dialog, DialogContent, Link, Typography,
 } from '@mui/material';
-import React, { useCallback, useContext, useState } from 'react';
-import { ContractContext, ContractStatus } from './ContractContextProvider';
+import { useContext } from 'react';
+import { ContractContext } from './ContractContextProvider';
 import shortenAddress from './utils/shortenAddress';
 
 type Props = {
   name?: string;
   token_address?: string;
   token_id?: string;
-  // eslint-disable-next-line no-unused-vars
-  onClick?: (tokenId: string) => void;
-  selectingMode: boolean;
-  selected: boolean;
 }
 
 const MintedPiece = ({
-  name, token_address, token_id, onClick, selectingMode, selected,
+  name, token_address, token_id,
 }: Props) => {
   let imageSrc = '/the-beginning-is-near.jpg';
 
@@ -31,15 +27,6 @@ const MintedPiece = ({
     }
   }
 
-  const onLinkClick = useCallback((e: React.SyntheticEvent) => {
-    if (onClick) {
-      e.preventDefault();
-      if (name?.indexOf('Signs') === -1) {
-        onClick(token_id || '');
-      }
-    }
-  }, [onClick, token_id]);
-
   return (
     <Box
       sx={[
@@ -49,7 +36,7 @@ const MintedPiece = ({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          border: selected && selectingMode ? '2px solid white' : '2px solid #141414',
+          border: '2px solid #141414',
           background: name && name.indexOf('Signs') > 0 ? 'white' : 'transparent',
           lineHeight: 0,
           mr: {
@@ -71,7 +58,6 @@ const MintedPiece = ({
       <Link
         href={`${process.env.NEXT_PUBLIC_OPENSEA_URL}/${token_address}/${token_id}`}
         target="_blank"
-        onClick={onLinkClick}
       >
         <img src={imageSrc} alt="nft" />
         <Typography
@@ -105,64 +91,8 @@ type GalleryProps = {
 
 const Gallery = ({ open, onClose }: GalleryProps) => {
   const {
-    isMinting, transactionHash, transactionResult, mintedPieces,
-    contractStatus, approveForBurn, mintTheSignsOfTheTimes, currentAccount,
+    isMinting, transactionHash, transactionResult, mintedPieces, currentAccount,
   } = useContext(ContractContext);
-
-  const [selected, setSelected] = useState<string[]>([]);
-  const [selectingMode, setSelectingMode] = useState(false);
-  const [selectedApprovedForBurned, setSelectedApprovedForBurned] = useState<boolean[]>([]);
-  const [approvingForBurn, setApprovingForBurn] = useState(false);
-  const [mintStarted, setMintStarted] = useState(false);
-  const [minting, setMinting] = useState(false);
-
-  const toggleSelectingMode = useCallback(() => {
-    setSelected([]);
-    setSelectedApprovedForBurned([]);
-    setSelectingMode(!selectingMode);
-  }, [selectingMode]);
-
-  const clickApproveForBurn = useCallback(async () => {
-    setApprovingForBurn(true);
-    setSelectedApprovedForBurned([false, false]);
-    const firstBurnApproved = await approveForBurn(selected[0]);
-    setSelectedApprovedForBurned([firstBurnApproved, false]);
-    const secondBurnApproved = await approveForBurn(selected[1]);
-    setSelectedApprovedForBurned([firstBurnApproved, secondBurnApproved]);
-    setApprovingForBurn(false);
-  }, [selected]);
-
-  const clickMintSignsOfTheTimes = useCallback(async () => {
-    if (selectedApprovedForBurned.length === 2
-      && selectedApprovedForBurned[0]
-      && selectedApprovedForBurned[1]
-    ) {
-      setMintStarted(true);
-      setMinting(true);
-      const success = await mintTheSignsOfTheTimes(selected);
-      setMinting(false);
-      if (success) {
-        toggleSelectingMode();
-      }
-    }
-  }, [selectedApprovedForBurned, selected]);
-
-  const selectMint = useCallback((tokenId: string) => {
-    setSelectedApprovedForBurned([]);
-
-    const selectedPiece = selected.indexOf(tokenId);
-    if (selectedPiece > -1) {
-      setSelected(selected.filter((piece) => piece !== tokenId));
-    } else if (selected.length < 2) {
-      const selectedCopy = [...selected];
-      selectedCopy.push(tokenId);
-      setSelected(selectedCopy);
-    } else {
-      const selectedCopy = [...selected];
-      selectedCopy[1] = tokenId;
-      setSelected(selectedCopy);
-    }
-  }, [selected, setSelected]);
 
   return (
     <Dialog
@@ -188,26 +118,10 @@ const Gallery = ({ open, onClose }: GalleryProps) => {
         }}
         onClick={onClose}
       />
-      <DialogTitle>
-        <Typography
-          variant="h2"
-          color="secondary"
-          sx={{
-            fontWeight: 300,
-            fontSize: '3rem',
-            lineHeight: '3rem',
-            flex: 2,
-            m: 2,
-          }}
-        >
-          Gallery
-        </Typography>
-      </DialogTitle>
       <DialogContent dividers>
         <Box
           sx={{
             pb: {
-              md: 18,
             },
             px: {
               xs: 0,
@@ -365,191 +279,12 @@ const Gallery = ({ open, onClose }: GalleryProps) => {
                   </Box>
                 )
               }
-              {
-                contractStatus === ContractStatus.Paused && mintedPieces.length > 1 && (
-                  <Box>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      sx={{
-                        py: 1.5,
-                        px: 3,
-                        my: 2,
-                        width: {
-                          xs: '100%',
-                          md: 'inherit',
-                        },
-                      }}
-                      onClick={toggleSelectingMode}
-                    >
-                      {
-                        !selectingMode && (
-                          <Typography
-                            variant="body2"
-                            color="primary"
-                            sx={{
-                              fontSize: '1.5rem',
-                              lineHeight: '2.0rem',
-                            }}
-                          >
-                            Mint &quot;The Signs of the Times&quot;
-                          </Typography>
-                        )
-                      }
-                      {
-                        selectingMode && (
-                          <Typography
-                            variant="body2"
-                            color="primary"
-                            sx={{
-                              fontSize: '1.5rem',
-                              lineHeight: '2.0rem',
-                            }}
-                          >
-                            Cancel
-                          </Typography>
-                        )
-                      }
-                    </Button>
-                    {
-                      selectingMode && (
-                        <Box
-                          sx={{
-                            pb: 4,
-                          }}
-                        >
-                          <Typography
-                            variant="body2"
-                            color="secondary"
-                            sx={{
-                              fontSize: '1.5rem',
-                              lineHeight: '2.0rem',
-                              mt: 2,
-                            }}
-                          >
-                            1. Select 2 Open Edition NFTs to burn.
-                            {
-                              selected.length > 1 && (
-                                <Check color="secondary" sx={{ fontSize: 12, ml: 1 }} />
-                              )
-                            }
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="secondary"
-                            sx={{
-                              fontSize: '1.5rem',
-                              lineHeight: '2.0rem',
-                              display: 'flex',
-                              mt: 2,
-                            }}
-                          >
-                            2. Set approval to burn those NFTs.
-                            {
-                              selectedApprovedForBurned.length === 2 && (
-                                <Box>
-                                  {
-                                    selectedApprovedForBurned[0] ? (
-                                      <Check color="secondary" sx={{ fontSize: 12, ml: 1 }} />
-                                    ) : (
-                                      <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
-                                    )
-                                  }
-                                  {
-                                    selectedApprovedForBurned[1] ? (
-                                      <Check color="secondary" sx={{ fontSize: 12, ml: 1 }} />
-                                    ) : (
-                                      <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
-                                    )
-                                  }
-                                </Box>
-                              )
-                            }
-                          </Typography>
-                          {
-                            selected.length === 2 && !(
-                              selectedApprovedForBurned[0] && selectedApprovedForBurned[1]
-                            ) && (
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                sx={{
-                                  py: 1.5,
-                                  px: 3,
-                                  mt: 2,
-                                  width: {
-                                    xs: '100%',
-                                    md: 'inherit',
-                                  },
-                                }}
-                                onClick={clickApproveForBurn}
-                              >
-                                Approve for burn
-                              </Button>
-                            )
-                          }
-                          {
-                            approvingForBurn && (
-                              <Box />
-                            )
-                          }
-                          <Typography
-                            variant="body2"
-                            color="secondary"
-                            sx={{
-                              fontSize: '1.5rem',
-                              lineHeight: '2.0rem',
-                              mt: 2,
-                            }}
-                          >
-                            3. Burn NFTs to mint &quot;The Signs of the Times&quot;
-                          </Typography>
-                          {
-                            selected.length === 2 && (
-                              selectedApprovedForBurned[0] && selectedApprovedForBurned[1]
-                            ) && (
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                sx={{
-                                  py: 1.5,
-                                  px: 3,
-                                  mt: 2,
-                                  width: {
-                                    xs: '100%',
-                                    md: 'inherit',
-                                  },
-                                }}
-                                onClick={clickMintSignsOfTheTimes}
-                              >
-                                Burn and Mint &quot;The Signs of the Times&quot;
-                                {
-                                  mintStarted && (
-                                    <Box>
-                                      {
-                                        minting ? (
-                                          <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
-                                        ) : (
-                                          <Check color="secondary" sx={{ fontSize: 12, ml: 1 }} />
-                                        )
-                                      }
-                                    </Box>
-                                  )
-                                }
-                              </Button>
-                            )
-                          }
-                        </Box>
-                      )
-                    }
-                  </Box>
-                )
-              }
               <Box
                 sx={{
                   display: 'flex',
                   flexWrap: 'wrap',
                   justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {
@@ -559,9 +294,6 @@ const Gallery = ({ open, onClose }: GalleryProps) => {
                       name={name}
                       token_address={token_address}
                       token_id={token_id}
-                      selectingMode={selectingMode}
-                      selected={selected.indexOf(token_id || '') > -1}
-                      onClick={selectingMode ? selectMint : undefined}
                     />
                   ))
                 }

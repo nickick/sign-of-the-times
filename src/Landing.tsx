@@ -1,14 +1,28 @@
-import { Box } from '@mui/material';
-import React, { useContext } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import React, { useCallback, useContext, useState } from 'react';
 import AboutTheProject from './AboutTheProject';
-import { ContractContext } from './ContractContextProvider';
+import { ContractContext, ContractStatus } from './ContractContextProvider';
 import HowItWorks from './HowItWorks';
 import ImageZoom from './ImageZoom';
 import MeteoricRise from './MeteoricRise';
 import PersonalStruggle from './PersonalStruggle';
+import SignsMinter from './SignsMinter';
 
 const Landing: React.FC = () => {
-  const { beginningCount, endCount } = useContext(ContractContext);
+  const { beginningCount, endCount, contractStatus } = useContext(ContractContext);
+
+  const isOver = contractStatus === ContractStatus.Paused
+    && (endCount > 0 || beginningCount > 0);
+
+  const [mintOpen, setMintIsOpen] = useState(false);
+
+  const closeMint = useCallback(() => {
+    setMintIsOpen(false);
+  }, []);
+
+  const openMint = useCallback(() => {
+    setMintIsOpen(true);
+  }, []);
 
   return (
     <Box
@@ -63,7 +77,52 @@ const Landing: React.FC = () => {
           colorType="dark"
           count={endCount}
         />
+        {
+          isOver && (
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{
+                width: '40rem',
+                position: 'absolute',
+                bottom: {
+                  xs: '-10rem',
+                  md: 0,
+                },
+                right: '50%',
+                transform: 'translate(50%, 50%)',
+              }}
+              size="large"
+              onClick={openMint}
+            >
+              <Typography
+                variant="body2"
+                color="primary"
+                sx={{
+                  fontSize: '2rem',
+                  lineHeight: '3.0rem',
+                }}
+              >
+                Mint &quot;The Signs of the Times&quot;
+              </Typography>
+            </Button>
+          )
+        }
+        <SignsMinter open={mintOpen} onClose={closeMint} />
       </Box>
+      {
+        isOver && (
+          <Box
+            sx={{
+              py: {
+                xs: 4,
+                md: 0,
+              },
+              bgcolor: '#141414',
+            }}
+          />
+        )
+      }
       <HowItWorks />
       <AboutTheProject />
       <MeteoricRise />

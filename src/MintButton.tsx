@@ -13,8 +13,14 @@ type Props = {
 const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButtonElement>) => {
   const {
     contractStatus, allowedGasOnlyMint, setErrorMessage, mintGasOnly,
-    canMintGasOnly, errorMessage, mint, currentAccount,
+    canMintGasOnly, errorMessage, mint, currentAccount, endCount, beginningCount,
   } = useContext(ContractContext);
+
+  const isUnstarted = contractStatus === ContractStatus.Paused
+    && endCount === 0 && beginningCount === 0;
+
+  const isOver = contractStatus === ContractStatus.Paused
+    && (endCount > 0 || beginningCount > 0);
 
   const onMintClick = useCallback(() => {
     const beginningOrEndBool = mintType === 'beginning';
@@ -66,7 +72,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
       onClick={onMintClick}
     >
       {
-        contractStatus === ContractStatus.Paused && (
+        isUnstarted && (
           <Typography
             variant="body2"
             color={mintType === 'beginning' ? 'primary' : 'secondary'}
@@ -76,6 +82,20 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
             }}
           >
             Minting soon &#40;0.05 Eth&#41;
+          </Typography>
+        )
+      }
+      {
+        isOver && (
+          <Typography
+            variant="body2"
+            color={mintType === 'beginning' ? 'primary' : 'secondary'}
+            sx={{
+              fontSize: '1.5rem',
+              lineHeight: '2.0rem',
+            }}
+          >
+            Mint Closed
           </Typography>
         )
       }
