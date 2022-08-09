@@ -12,7 +12,7 @@ type Props = {
 
 const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButtonElement>) => {
   const {
-    contractStatus, allowedGasOnlyMint, setErrorMessage, mintGasOnly,
+    contractStatus, allowedGasOnlyMint, mintGasOnly,
     canMintGasOnly, errorMessage, mint, currentAccount, endCount, beginningCount,
   } = useContext(ContractContext);
 
@@ -26,17 +26,17 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
     const beginningOrEndBool = mintType === 'beginning';
 
     if (contractStatus === ContractStatus.Premint) {
-      if (allowedGasOnlyMint) {
-        // mintGasOnly
-        if (canMintGasOnly) {
-          mintGasOnly(beginningOrEndBool);
-        } else {
-          setErrorMessage('Maximum pre-mints already minted');
-        }
-      } else {
-        // error message about gas only mint
-        setErrorMessage('Connected wallet is not on allowlist');
-      }
+      mintGasOnly(beginningOrEndBool);
+      // if (allowedGasOnlyMint) {
+      //   // mintGasOnly
+      //   if (canMintGasOnly) {
+      //   } else {
+      //     setErrorMessage('Maximum pre-mints already minted');
+      //   }
+      // } else {~
+      //   // error message about gas only mint
+      //   setErrorMessage('Connected wallet is not on allowlist');
+      // }
     } else if (contractStatus === ContractStatus.Mint) {
       // public mint
       if (allowedGasOnlyMint && canMintGasOnly) {
