@@ -369,7 +369,7 @@ const ContractContextProvider = ({ children }: Props) => {
           1,
           beginningOrEnd,
           {
-            value: ethers.utils.parseEther(ethers.utils.formatEther(price)),
+            value: ethers.utils.parseEther('0.05'),
           },
         );
 
