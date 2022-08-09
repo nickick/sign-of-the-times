@@ -91,13 +91,14 @@ const Landing: React.FC = () => {
                 },
                 right: '50%',
                 transform: 'translate(50%, 50%)',
+                bgcolor: 'black',
               }}
               size="large"
               onClick={openMint}
             >
               <Typography
                 variant="body2"
-                color="primary"
+                color="secondary"
                 sx={{
                   fontSize: '2rem',
                   lineHeight: '3.0rem',

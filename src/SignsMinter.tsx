@@ -5,7 +5,7 @@ import {
   Box, Button, CircularProgress, Dialog, DialogContent, Link, Typography,
 } from '@mui/material';
 import React, { useCallback, useContext, useState } from 'react';
-import { ContractContext, ContractStatus } from './ContractContextProvider';
+import { ContractContext } from './ContractContextProvider';
 
 type Props = {
   name?: string;
@@ -104,7 +104,7 @@ type GalleryProps = {
 
 const SignsMinter = ({ open, onClose }: GalleryProps) => {
   const {
-    mintedPieces, contractStatus, approveForBurn, mintTheSignsOfTheTimes,
+    mintedPieces, approveForBurn, mintTheSignsOfTheTimes,
   } = useContext(ContractContext);
 
   const [selected, setSelected] = useState<string[]>([]);
@@ -219,179 +219,200 @@ const SignsMinter = ({ open, onClose }: GalleryProps) => {
                 flexDirection: 'column',
               }}
             >
-              <Typography
-                variant="body1"
-                color="secondary"
-                sx={{
-                  fontSize: '2rem',
-                  lineHeight: '3rem',
-                }}
-              >
-                Follow the instructions to mint &quot;The Signs of the Times&quot;.
-              </Typography>
               {
-                contractStatus === ContractStatus.Paused && mintedPieces.length > 0 && (
-                  <Box>
-                    {
-                      selectingMode && (
-                        <Box
-                          sx={{
-                            pb: 4,
-                          }}
-                        >
-                          <Typography
-                            variant="body2"
+                mintedPieces.length > 1 && (
+                  <Typography
+                    variant="body1"
+                    color="secondary"
+                    sx={{
+                      fontSize: '2rem',
+                      lineHeight: '3rem',
+                    }}
+                  >
+                    Follow the instructions to mint &quot;The Signs of the Times&quot;.
+                  </Typography>
+                )
+              }
+              <Box>
+                {
+                  mintedPieces.length < 2 && (
+                    <Typography
+                      variant="body2"
+                      color="secondary"
+                      sx={{
+                        fontSize: '2rem',
+                        lineHeight: '2.0rem',
+                        mb: 4,
+                      }}
+                    >
+                      Error: You don&apos;t have enough Open Edition NFTs
+                      to mint &quot;The Signs of the Times&quot;.
+                      {
+                        selected.length > 1 && (
+                          <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
+                        )
+                      }
+                    </Typography>
+                  )
+                }
+                {
+                  selectingMode && mintedPieces.length > 1 && (
+                    <Box
+                      sx={{
+                        pb: 4,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        color="secondary"
+                        sx={{
+                          fontSize: '2rem',
+                          lineHeight: '2.0rem',
+                          mt: 2,
+                        }}
+                      >
+                        1. Select 2 Open Edition NFTs to burn.
+                        {
+                          selected.length > 1 && (
+                            <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
+                          )
+                        }
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="secondary"
+                        sx={{
+                          fontSize: '2rem',
+                          lineHeight: '2.0rem',
+                          display: 'flex',
+                          mt: 2,
+                        }}
+                      >
+                        2. Set approval to burn those NFTs.
+                        {
+                          selectedApprovedForBurned.length === 2 && (
+                            <Box>
+                              {
+                                selectedApprovedForBurned[0] ? (
+                                  <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
+                                ) : (
+                                  <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
+                                )
+                              }
+                              {
+                                selectedApprovedForBurned[1] ? (
+                                  <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
+                                ) : (
+                                  <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
+                                )
+                              }
+                            </Box>
+                          )
+                        }
+                      </Typography>
+                      {
+                        selected.length === 2 && !(
+                          selectedApprovedForBurned[0] && selectedApprovedForBurned[1]
+                        ) && (
+                          <Button
+                            variant="contained"
                             color="secondary"
                             sx={{
-                              fontSize: '2rem',
-                              lineHeight: '2.0rem',
+                              py: 1.5,
+                              px: 3,
                               mt: 2,
+                              width: {
+                                xs: '100%',
+                                md: 'inherit',
+                              },
+                              bgcolor: '#1D7FFF',
                             }}
+                            onClick={clickApproveForBurn}
+                            disabled={approvingForBurn}
                           >
-                            1. Select 2 Open Edition NFTs to burn.
-                            {
-                              selected.length > 1 && (
-                                <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
-                              )
-                            }
-                          </Typography>
-                          <Typography
-                            variant="body2"
+                            <Typography
+                              sx={{
+                                color: 'white',
+                                fontSize: '1.5rem',
+                              }}
+                            >
+                              {
+                                approvingForBurn
+                                  ? '... Approving'
+                                  : 'Approve for burn'
+                              }
+                            </Typography>
+                          </Button>
+                        )
+                      }
+                      {
+                        approvingForBurn && (
+                          <Box />
+                        )
+                      }
+                      <Typography
+                        variant="body2"
+                        color="secondary"
+                        sx={{
+                          fontSize: '2rem',
+                          lineHeight: '2.0rem',
+                          mt: 2,
+                        }}
+                      >
+                        3. Burn NFTs to mint &quot;The Signs of the Times&quot;
+                      </Typography>
+                      {
+                        selected.length === 2 && (
+                          selectedApprovedForBurned[0] && selectedApprovedForBurned[1]
+                        ) && (
+                          <Button
+                            variant="contained"
                             color="secondary"
                             sx={{
-                              fontSize: '2rem',
-                              lineHeight: '2.0rem',
-                              display: 'flex',
+                              py: 1.5,
+                              px: 3,
                               mt: 2,
+                              width: {
+                                xs: '100%',
+                                md: 'inherit',
+                              },
+                              bgcolor: '#1D7FFF',
                             }}
+                            onClick={clickMintSignsOfTheTimes}
+                            disabled={mintStarted}
                           >
-                            2. Set approval to burn those NFTs.
+                            <Typography
+                              sx={{
+                                color: 'white',
+                                fontSize: '1.5rem',
+                              }}
+                            >
+                              {
+                                mintStarted
+                                  ? '... Burning and Minting'
+                                  : 'Burn and Mint "The Signs of the Times"'
+                              }
+                            </Typography>
                             {
-                              selectedApprovedForBurned.length === 2 && (
+                              mintStarted && (
                                 <Box>
                                   {
-                                    selectedApprovedForBurned[0] ? (
-                                      <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
-                                    ) : (
+                                    minting ? (
                                       <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
-                                    )
-                                  }
-                                  {
-                                    selectedApprovedForBurned[1] ? (
-                                      <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
                                     ) : (
-                                      <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
+                                      <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
                                     )
                                   }
                                 </Box>
                               )
                             }
-                          </Typography>
-                          {
-                            selected.length === 2 && !(
-                              selectedApprovedForBurned[0] && selectedApprovedForBurned[1]
-                            ) && (
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                sx={{
-                                  py: 1.5,
-                                  px: 3,
-                                  mt: 2,
-                                  width: {
-                                    xs: '100%',
-                                    md: 'inherit',
-                                  },
-                                  bgcolor: '#1D7FFF',
-                                }}
-                                onClick={clickApproveForBurn}
-                                disabled={approvingForBurn}
-                              >
-                                <Typography
-                                  sx={{
-                                    color: 'white',
-                                    fontSize: '1.5rem',
-                                  }}
-                                >
-                                  {
-                                    approvingForBurn
-                                      ? '... Approving'
-                                      : 'Approve for burn'
-                                  }
-                                </Typography>
-                              </Button>
-                            )
-                          }
-                          {
-                            approvingForBurn && (
-                              <Box />
-                            )
-                          }
-                          <Typography
-                            variant="body2"
-                            color="secondary"
-                            sx={{
-                              fontSize: '2rem',
-                              lineHeight: '2.0rem',
-                              mt: 2,
-                            }}
-                          >
-                            3. Burn NFTs to mint &quot;The Signs of the Times&quot;
-                          </Typography>
-                          {
-                            selected.length === 2 && (
-                              selectedApprovedForBurned[0] && selectedApprovedForBurned[1]
-                            ) && (
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                sx={{
-                                  py: 1.5,
-                                  px: 3,
-                                  mt: 2,
-                                  width: {
-                                    xs: '100%',
-                                    md: 'inherit',
-                                  },
-                                  bgcolor: '#1D7FFF',
-                                }}
-                                onClick={clickMintSignsOfTheTimes}
-                                disabled={mintStarted}
-                              >
-                                <Typography
-                                  sx={{
-                                    color: 'white',
-                                    fontSize: '1.5rem',
-                                  }}
-                                >
-                                  {
-                                    mintStarted
-                                      ? '... Burning and Minting'
-                                      : 'Burn and Mint "The Signs of the Times"'
-                                  }
-                                </Typography>
-                                {
-                                  mintStarted && (
-                                    <Box>
-                                      {
-                                        minting ? (
-                                          <CircularProgress color="secondary" size={12} sx={{ ml: 1 }} />
-                                        ) : (
-                                          <Check sx={{ color: '#AAFF00', fontSize: 14, ml: 1 }} />
-                                        )
-                                      }
-                                    </Box>
-                                  )
-                                }
-                              </Button>
-                            )
-                          }
-                        </Box>
-                      )
-                    }
-                  </Box>
-                )
-              }
+                          </Button>
+                        )
+                      }
+                    </Box>
+                  )
+                }
+              </Box>
               <Box
                 sx={{
                   display: 'flex',
