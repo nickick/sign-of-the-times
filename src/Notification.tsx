@@ -18,6 +18,18 @@ const Notification: React.FC = () => {
     errorMessageTruncated = errorMessage.slice(reasonIndex + 29, reasonIndex + 29 + 150).concat(' ...');
   }
 
+  if (errorMessage && errorMessage.indexOf('Transaction reverted without a reason string') > -1) {
+    setErrorMessage('');
+  }
+
+  if (errorMessage && errorMessage.indexOf('JSON') > -1) {
+    setErrorMessage('');
+  }
+
+  if (errorMessage && errorMessage.indexOf('unknown account') > -1) {
+    setErrorMessage('');
+  }
+
   const message: Message = {
     type: 'error',
     text: errorMessageTruncated,

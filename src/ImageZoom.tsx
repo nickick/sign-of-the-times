@@ -182,7 +182,7 @@ const ImageZoom: React.FC<Props> = ({
           },
           bottom: {
             xs: '0',
-            md: 'calc(50% - 30rem)',
+            md: 'calc(50% - 33rem)',
           },
           width: {
             xs: '100%',
