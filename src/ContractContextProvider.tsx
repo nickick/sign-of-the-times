@@ -66,7 +66,6 @@ const ContractContextProvider = ({ children }: Props) => {
   const [beginningCount, setBeginningCount] = useState(0);
   const [endCount, setEndCount] = useState(0);
   const [mintedPieces, setMintedPieces] = useState<Piece[]>([]);
-  const [price, setPrice] = useState<string>('0');
   const [galleryOpen, setGalleryOpen] = useState(false);
 
   interface ErrorWithMessage {
@@ -328,28 +327,6 @@ const ContractContextProvider = ({ children }: Props) => {
     }
   };
 
-  const getPrice = async () => {
-    const { ethereum } = window;
-
-    try {
-      if (!ethereum) {
-        // eslint-disable-next-line no-alert
-        alert('Please install MetaMask or another wallet provider.');
-        return false;
-      }
-      const signsContract = getSignsContract();
-      // eslint-disable-next-line no-underscore-dangle
-      const contractPrice = await signsContract._price();
-      setPrice(contractPrice.toString());
-      return contractPrice.toString();
-    } catch (error) {
-      setIsMinting(false);
-      console.error('getPrice');
-      handleError(error);
-      return '0';
-    }
-  };
-
   const mint = async (beginningOrEnd: boolean) => {
     const { ethereum } = window;
     setTransactionHash(undefined);
@@ -480,7 +457,6 @@ const ContractContextProvider = ({ children }: Props) => {
       getContractStatus();
       canMintPrivate();
       getMintedPieces();
-      getPrice();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
