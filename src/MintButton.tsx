@@ -135,7 +135,9 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
           <FormControl
             fullWidth
             sx={{
-              transform: 'translateY(6rem)',
+              transform: {
+                md: 'translateY(6rem)',
+              },
             }}
           >
             <InputLabel
@@ -143,7 +145,10 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
               sx={{
                 top: '1rem',
                 left: '-1rem',
-                color: mintType === 'beginning' ? 'black !important' : 'white !important',
+                color: {
+                  xs: 'white !important',
+                  md: mintType === 'beginning' ? 'black !important' : 'white !important',
+                },
               }}
             >
               Count
@@ -176,7 +181,9 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
             xs: '100%',
             md: 'inherit',
           },
-          transform: contractStatus === ContractStatus.Mint && !canPremint ? 'translateY(6rem)' : 'none',
+          transform: {
+            md: contractStatus === ContractStatus.Mint && !canPremint ? 'translateY(6rem)' : 'none',
+          },
         }}
         onClick={onMintClick}
       >
