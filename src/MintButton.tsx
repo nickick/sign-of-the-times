@@ -136,7 +136,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
             fullWidth
             sx={{
               transform: {
-                md: 'translateY(6rem)',
+                md: 'translateY(8rem)',
               },
             }}
           >
@@ -182,7 +182,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
             md: 'inherit',
           },
           transform: {
-            md: contractStatus === ContractStatus.Mint && !canPremint ? 'translateY(6rem)' : 'none',
+            md: contractStatus === ContractStatus.Mint && !canPremint ? 'translateY(8rem)' : 'none',
           },
           position: 'relative',
           zIndex: 1000,
