@@ -285,6 +285,7 @@ const Gallery = ({ open, onClose }: GalleryProps) => {
                   flexWrap: 'wrap',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  mt: 6,
                 }}
               >
                 {
