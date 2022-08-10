@@ -184,6 +184,8 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
           transform: {
             md: contractStatus === ContractStatus.Mint && !canPremint ? 'translateY(6rem)' : 'none',
           },
+          position: 'relative',
+          zIndex: 1000,
         }}
         onClick={onMintClick}
       >

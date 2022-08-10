@@ -14,8 +14,14 @@ const Notification: React.FC = () => {
   let errorMessageTruncated = errorMessage || '';
 
   if (errorMessage && errorMessage.length > 100) {
-    const reasonIndex = Math.max(errorMessage?.indexOf('(reason="execution reverted: '), 0);
-    errorMessageTruncated = errorMessage.slice(reasonIndex + 29, reasonIndex + 29 + 150).concat(' ...');
+    const reasonIndex = errorMessage?.indexOf('(reason="execution reverted: ');
+    if (reasonIndex > -1) {
+      errorMessageTruncated = errorMessage.slice(reasonIndex + 29, reasonIndex + 29 + 150).concat(' ...');
+    } else if (errorMessage.indexOf('insufficient funds for intrinsic transaction cost') > -1) {
+      errorMessageTruncated = 'Error: Not enough ETH in wallet. Try switching your wallet or adding more funds.';
+    } else {
+      errorMessageTruncated = 'Error: '.concat(errorMessage.slice(0, 150).concat(' ...'));
+    }
   }
 
   if (errorMessage && errorMessage.indexOf('Transaction reverted without a reason string') > -1) {
@@ -53,6 +59,7 @@ const Notification: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          border: '4px solid red',
         }}
       >
         {message.text}
