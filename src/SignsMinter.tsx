@@ -288,7 +288,7 @@ const SignsMinter = ({ open, onClose }: GalleryProps) => {
                           mt: 2,
                         }}
                       >
-                        2. Set approval to burn those NFTs.
+                        2. Accept 2 transactions to set approval to burn those NFTs.
                         {
                           selectedApprovedForBurned.length === 2 && (
                             <Box>

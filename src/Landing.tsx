@@ -92,6 +92,7 @@ const Landing: React.FC = () => {
                 right: '50%',
                 transform: 'translate(50%, 50%)',
                 bgcolor: 'black',
+                zIndex: 1000,
               }}
               size="large"
               onClick={openMint}
