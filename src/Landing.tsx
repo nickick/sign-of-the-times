@@ -105,7 +105,7 @@ const Landing: React.FC = () => {
                   lineHeight: '3.0rem',
                 }}
               >
-                Mint &quot;The Signs of the Times&quot;
+                Burn and Mint &quot;The Signs of the Times&quot;
               </Typography>
             </Button>
           )
