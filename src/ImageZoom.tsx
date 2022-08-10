@@ -201,7 +201,7 @@ const ImageZoom: React.FC<Props> = ({
         <Box
           sx={{
             position: 'relative',
-            zIndex: '2',
+            zIndex: 100,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
