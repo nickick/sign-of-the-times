@@ -82,7 +82,7 @@ const MintButton = forwardRef(({ mintType }: Props, ref: ForwardedRef<HTMLButton
   const isUnstarted = contractStatus === ContractStatus.Paused
     && endCount === 0 && beginningCount === 0;
 
-  const isOver = contractStatus === ContractStatus.Paused
+  const isOver = contractStatus === ContractStatus.Premint
     && (endCount > 0 || beginningCount > 0);
 
   const canPremint = (
