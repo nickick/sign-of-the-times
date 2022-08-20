@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import AboutTheProject from './AboutTheProject';
 import { ContractContext, ContractStatus } from './ContractContextProvider';
@@ -67,6 +67,36 @@ const Landing: React.FC = () => {
           count={endCount}
         />
         {/* <SignsMinter open={mintOpen} onClose={closeMint} /> */}
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
+            width: '40rem',
+            position: 'absolute',
+            bottom: {
+              xs: '-10rem',
+              md: 0,
+            },
+            right: '50%',
+            transform: 'translate(50%, 50%)',
+            bgcolor: 'black',
+            zIndex: 1000,
+          }}
+          size="large"
+          href="https://opensea.io/collection/signs-of-the-times-v2"
+          target="_blank"
+        >
+          <Typography
+            variant="body2"
+            color="secondary"
+            sx={{
+              fontSize: '2rem',
+              lineHeight: '3.0rem',
+            }}
+          >
+            View on OpenSea
+          </Typography>
+        </Button>
       </Box>
       {
         isOver && (
